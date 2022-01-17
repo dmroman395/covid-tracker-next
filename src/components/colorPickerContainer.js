@@ -47,13 +47,13 @@ function ColorPickerContainer() {
         dispatch(updateSelecting())
     }
 
-    const gridItems = colors.map(color => {
+    const gridItems = colors.map((color, key) => {
         function setPresetColor() {
             setHex(color)
         }
 
         return (
-            <Grid item xs={3}
+            <Grid item xs={3} key={key}
                 sx={{
                     bgcolor: color,
                     height: 65
