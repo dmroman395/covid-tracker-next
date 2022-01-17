@@ -8,7 +8,7 @@ const locationController = require('../controllers/locationController')
 
 const { getCountryFromCoordinates } = locationController
 
-function Scene() {
+function Scene({data}) {
   const [isDragging, setIsDragging] = useState(false)
   const [isListeningForDrag, setIsListeningForDrag] = useState(false)
   const darkMode = useSelector(selectDarkMode)
@@ -86,5 +86,9 @@ function Scene() {
     </>
   )
 }
+
+// async function getServerSideProps(lat, lon) => {
+  
+// }
 
 export default Scene
