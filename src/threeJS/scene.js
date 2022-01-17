@@ -6,9 +6,9 @@ import { selectDarkMode } from '../redux/darkModeSlice'
 import { selectTheme } from '../redux/themeSlice'
 const locationController = require('../controllers/locationController')
 
-const { getCountryFromCoordinates } = locationController
+const { getCountryFromProxy } = locationController
 
-function Scene({data}) {
+function Scene() {
   const [isDragging, setIsDragging] = useState(false)
   const [isListeningForDrag, setIsListeningForDrag] = useState(false)
   const darkMode = useSelector(selectDarkMode)
@@ -61,16 +61,13 @@ function Scene({data}) {
       return coordinates
     }
 
-    async function get3DCoordinates(e) {
+    function get3DCoordinates(e) {
       e.stopPropagation()
       
       const {x, y, z} = e.intersections[0].point
       const coords = calcLatLonFromPos(x,y,z)
 
-      // console.log(coords)
-
-      const country = await getCountryFromCoordinates(coords.lat, coords.lon)
-      console.log(country)
+      getCountryFromProxy(coords.lat, coords.lon)
     }
 
   return (
@@ -86,9 +83,5 @@ function Scene({data}) {
     </>
   )
 }
-
-// async function getServerSideProps(lat, lon) => {
-  
-// }
 
 export default Scene

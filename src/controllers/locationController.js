@@ -8,26 +8,24 @@ const options = {
     params: {latlng: null, result_type: 'country', language: 'en'},
     headers: {
       'x-rapidapi-host': 'google-maps-geocoding.p.rapidapi.com',
-      'x-rapidapi-key': process.env.NEXT_PUBLIC_GEOCODING_API_KEY
+      'x-rapidapi-key': process.env.REACT_APP_GEOCODING_API_KEY
     }
   };
 
-const getCountryFromCoordinates = async (lat, lon) => {
-    options.params.latlng = `${lat},${lon}`
-    try {
-      const data = await axios.request(options)
-      const country = {country: data.data.results[0].formatted_address}
-      return country
-    } catch(err) {
-      console.error(err)
-    };
+const getCountryFromCoordinates = (req, res) => {
+    options.params.latlng = `${req.query.lat},${req.query.lon}`
+    axios.request(options).then(response =>  {
+        res.json({country: response.data.results[0].formatted_address})
+    }).catch(error => {
+        console.error(error);
+    });
 }
 
 const getCountryFromProxy = async (lat, lon) => {
   try {
     const data = await axios.get(`http://localhost:4000/coordinates?lat=${lat}&lon=${lon}`)
-    console.log(data.data.country)
-    return data.data.country
+    console.log(data)
+    return data
   } catch(err) {
     console.error(err)
   };

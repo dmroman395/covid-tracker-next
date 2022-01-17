@@ -1,0 +1,20 @@
+.App {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    .main-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-grow: 1;
+        .info-container {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+        }
+        .globe-container {
+            width: 95%;
+            height: 95%;
+        }
+    }
+}
