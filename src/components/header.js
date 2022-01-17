@@ -7,7 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { selectDarkMode } from '../redux/darkModeSlice';
 import { updateSelecting } from '../redux/themeSlice'
 import { useSelector, useDispatch } from 'react-redux';
-import '../css/header.css'
+import styles from  '../css/header.module.css'
 
 function Header() {
     const dispatch = useDispatch()
@@ -18,7 +18,7 @@ function Header() {
     }
     
     return (
-            <div className='header'>
+            <div className={styles.header}>
                 <Button 
                     variant='contained' 
                     size='small'
@@ -29,7 +29,7 @@ function Header() {
                 >
                     Change Theme
                 </Button>
-                <div className='search'>
+                <div className={styles.search}>
                     <TextField 
                     label="Search..." 
                     variant="outlined" 

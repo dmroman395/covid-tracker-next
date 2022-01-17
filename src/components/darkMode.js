@@ -1,5 +1,5 @@
 import React from "react";
-import '../css/darkMode.css'
+import styles from '../css/darkMode.module.css'
 import Switch from '@mui/material/Switch';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
@@ -14,7 +14,7 @@ function DarkMode() {
     }
 
     return (
-        <div className="darkMode">
+        <div className={styles.darkMode}>
             <LightModeIcon color='primary'/>
             <Switch onClick={toggleDarkMode}/>
             <DarkModeIcon color ='primary'/>

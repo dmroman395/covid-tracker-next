@@ -2,17 +2,17 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    .main-content {
+    .mainContent {
         display: flex;
         justify-content: space-between;
         align-items: center;
         flex-grow: 1;
-        .info-container {
+        .infoContainer {
             width: 50%;
             display: flex;
             justify-content: center;
         }
-        .globe-container {
+        .globeContainer {
             width: 95%;
             height: 95%;
         }

@@ -10,7 +10,7 @@ import { selectDarkMode } from '../redux/darkModeSlice';
 import { selectTheme, updateTheme, updateSelecting } from '../redux/themeSlice'
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
-import '../css/colorPickerContainer.css'
+import styles from '../css/colorPickerContainer.module.css'
 
 const useStyles = makeStyles({
     root: {
@@ -104,7 +104,7 @@ function ColorPickerContainer() {
                     flexDirection: 'column',
                 }}
             >
-                <div className="color-buttons">
+                <div className={styles.colorButtons}>
                     <Button variant='contained' onClick={toggleColorSelector}>{customColor ? 'Preset Color' : 'Custom Color'}</Button>
                     <Button variant='contained' onClick={setNewTheme}>Confirm</Button>
                 </div>

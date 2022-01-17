@@ -9,7 +9,7 @@
           flex-direction: column;
 }
 
-.App .main-content {
+.App .mainContent {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -24,7 +24,7 @@
           flex-grow: 1;
 }
 
-.App .main-content .info-container {
+.App .mainContent .infoContainer {
   width: 50%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -34,7 +34,7 @@
           justify-content: center;
 }
 
-.App .main-content .globe-container {
+.App .mainContent .globeContainer {
   width: 95%;
   height: 95%;
 }
