@@ -6,7 +6,7 @@ import { selectDarkMode } from '../redux/darkModeSlice'
 import { selectTheme } from '../redux/themeSlice'
 const locationController = require('../controllers/locationController')
 
-const { getCountryFromProxy } = locationController
+const { getCountryFromCoordinates } = locationController
 
 function Scene() {
   const [isDragging, setIsDragging] = useState(false)
@@ -69,7 +69,7 @@ function Scene() {
 
       console.log(coords)
 
-      getCountryFromProxy(coords.lat, coords.lon)
+      getCountryFromCoordinates(coords.lat, coords.lon)
     }
 
   return (
