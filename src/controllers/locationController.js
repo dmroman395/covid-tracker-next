@@ -8,7 +8,7 @@ const options = {
     params: {latlng: null, result_type: 'country', language: 'en'},
     headers: {
       'x-rapidapi-host': 'google-maps-geocoding.p.rapidapi.com',
-      'x-rapidapi-key': process.env.REACT_APP_GEOCODING_API_KEY
+      'x-rapidapi-key': process.env.NEXT_PUBLIC_GEOCODING_API_KEY
     }
   };
 
