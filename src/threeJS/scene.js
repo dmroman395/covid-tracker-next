@@ -69,7 +69,7 @@ function Scene() {
 
       console.log(coords)
 
-      getCountryFromCoordinates(coords.lat, coords.lon)
+      const country = getCountryFromCoordinates(coords.lat, coords.lon)
     }
 
   return (

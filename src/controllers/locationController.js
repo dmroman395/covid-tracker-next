@@ -12,10 +12,10 @@ const options = {
     }
   };
 
-const getCountryFromCoordinates = (req, res) => {
-    options.params.latlng = `${req.query.lat},${req.query.lon}`
+const getCountryFromCoordinates = (lat, lon) => {
+    options.params.latlng = `${lat},${lon}`
     axios.request(options).then(response =>  {
-        res.json({country: response.data.results[0].formatted_address})
+        return ({country: response.data.results[0].formatted_address})
     }).catch(error => {
         console.error(error);
     });
