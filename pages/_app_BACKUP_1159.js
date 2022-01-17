@@ -1,6 +1,9 @@
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }) {
+<<<<<<< HEAD
+  return <Component {...pageProps} />
+=======
   return (
     <>
       <Head>
@@ -18,6 +21,7 @@ function MyApp({ Component, pageProps }) {
     </>
     
   )
+>>>>>>> 16885b3 (Cherry-picking started)
 }
 
 export default MyApp
