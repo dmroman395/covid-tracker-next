@@ -8,6 +8,8 @@ const app = express()
 
 app.use(cors())
 
+app.get('/', (req,res) => res.send('HELLLOOOOOOOOO'))
+
 app.get('/coordinates', getCountryFromCoordinates)
 
 const port = process.env.port || 4000;
