@@ -6,7 +6,7 @@ import { selectDarkMode } from '../redux/darkModeSlice'
 import { selectTheme } from '../redux/themeSlice'
 const locationController = require('../controllers/locationController')
 
-const { getCountryFromCoordinates } = locationController
+const { getCountryFromProxy} = locationController
 
 function Scene() {
   const [isDragging, setIsDragging] = useState(false)
@@ -61,25 +61,23 @@ function Scene() {
       return coordinates
     }
 
-    function get3DCoordinates(e) {
+    async function handleClick(e) {
       e.stopPropagation()
       
       const {x, y, z} = e.intersections[0].point
       const coords = calcLatLonFromPos(x,y,z)
 
-      console.log(coords)
-
-      const country = getCountryFromCoordinates(coords.lat, coords.lon)
-      console.log(country)
+      // const country = await getCountryFromProxy(coords.lat, coords.lon)
+      // console.log(country)
     }
 
   return (
       <>
         <ambientLight intensity={.1}/>
-        <sprite scale={[4.5,4.5,1]} >
+        <sprite scale={[3.85,3.85,1]} >
               <spriteMaterial {...spriteMaterial} />
         </sprite>
-        <mesh ref={globeRef} name={'earth'} onClick={isDragging ? null :  e => get3DCoordinates(e)} onPointerMove={isListeningForDrag ? handleDrag : null} onPointerDown={addDragListnener} onPointerUp={removeDragListener}>
+        <mesh ref={globeRef} name={'earth'} onClick={isDragging ? null :  e => handleClick(e)} onPointerMove={isListeningForDrag ? handleDrag : null} onPointerDown={addDragListnener} onPointerUp={removeDragListener}>
             <sphereGeometry args={[1, 100, 100]}/>
             <meshPhongMaterial {...props}  bumpScale={.002} color={customTheme} transparent={true} alphaTest={.05} opacity={1} depthWrite={false} depthTest={false}/>
         </mesh>

@@ -16,7 +16,7 @@ function GlobeContainer() {
           <Provider store={store}>
             <Scene/>
             </Provider>
-          <OrbitControls enableZoom={!false} enablePan={false} />
+          <OrbitControls autoRotate autoRotateSpeed={1} enableZoom={false} enablePan={false} />
         </Suspense>
       </Canvas>
   )
