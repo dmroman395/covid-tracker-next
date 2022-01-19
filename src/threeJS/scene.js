@@ -67,8 +67,8 @@ function Scene() {
       const {x, y, z} = e.intersections[0].point
       const coords = calcLatLonFromPos(x,y,z)
 
-      // const country = await getCountryFromProxy(coords.lat, coords.lon)
-      // console.log(country)
+      const country = await getCountryFromProxy(coords.lat, coords.lon)
+      console.log(country)
     }
 
   return (
