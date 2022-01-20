@@ -2,6 +2,7 @@ import styles from './css/app.module.css';
 import React from "react";
 import Header from './components/header';
 import Box from '@mui/material/Box';
+import InfoCard from'./components/infoCard'
 import Button from '@mui/material/Button';
 import StatsCard from './components/statsCard';
 import ColorPickerOverlay from './components/colorPickerOverlay';
@@ -9,7 +10,6 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { selectDarkMode } from './redux/darkModeSlice';
 import { selectTheme, selectSelecting } from './redux/themeSlice'
 import { useSelector } from 'react-redux';
-import Typography from '@mui/material/Typography';
 import GlobeContainer from './threeJS/globeContainer';
 
 function App() {
@@ -24,8 +24,8 @@ function App() {
         main: customTheme
       },
       background: {
-        default: darkMode ? '#303030' : '#fafafa',
-        paper: darkMode ? '#424242' : 'fff'
+        default: darkMode ? '#303030' : '#f2f2f2',
+        paper: darkMode ? '#424242' : '#fafafa'
       },
     },
     typography: {
@@ -58,7 +58,7 @@ function App() {
       >
         <Header/>
         <div className={styles.mainContent}>
-          <div className={styles.infoContainer}><Typography align='center'>Placeholder</Typography></div>
+          <div className={styles.infoContainer}><InfoCard align='center'>Placeholder</InfoCard></div>
           <div className={styles.globeContainer}><GlobeContainer/></div>
         </div>
       </Box>

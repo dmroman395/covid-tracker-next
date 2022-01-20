@@ -4,9 +4,9 @@ import { useTexture } from "@react-three/drei"
 import { useSelector } from 'react-redux'
 import { selectDarkMode } from '../redux/darkModeSlice'
 import { selectTheme } from '../redux/themeSlice'
-const locationController = require('../controllers/locationController')
+const countryController = require('../controllers/countryController')
 
-const { getCountryFromProxy} = locationController
+const { getCountryFromProxy} = countryController
 
 function Scene() {
   const [isDragging, setIsDragging] = useState(false)
