@@ -5,7 +5,7 @@ import { selectDarkMode } from '../redux/darkModeSlice'
 import { useSelector } from 'react-redux'
 import styles from '../css/statsCard.module.css'
 
-function StatsCard({type, stat}) {
+function StatsCard2({type, stat}) {
     const darkMode = useSelector(selectDarkMode)
 
     let color
@@ -21,23 +21,10 @@ function StatsCard({type, stat}) {
 
     if (type.includes('Recovered')) color = 'orange'
 
-    // if(type === 'Chart') 
-
     return (
         <Card 
+            className={styles.gridItem2}
             elevation={0}
-            sx={{
-                borderRadius: 0,
-                border: 1,
-                borderTop: 0,
-                borderLeft: 0,
-                borderRight: 0,
-                borderColor: 'divider',
-                "&:nth-child(odd)": {
-                    borderRight: 1,
-                    borderColor: 'divider'
-                }
-            }}
         >
             <CardContent>
                 <Typography variant='h6' align='center'>{type}</Typography>
@@ -47,4 +34,4 @@ function StatsCard({type, stat}) {
     )
 }
 
-export default StatsCard
+export default StatsCard2

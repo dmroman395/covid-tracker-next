@@ -1,0 +1,16 @@
+.statsGrid {
+  display: Grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  max-height: 550px;
+}
+
+.statsGrid .gridItem {
+  border: 1px solid black;
+  border-top: none;
+}
+
+.statsGrid .gridItem:nth-child(odd) {
+  border-right: none;
+}
+/*# sourceMappingURL=statsCardPanel.css.map */

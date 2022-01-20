@@ -66,7 +66,7 @@ function NewsCard({data}) {
                     target='_blank'
                     rel='noopener'
                 >
-                    <Typography variant='caption'>View Article</Typography>
+                    <Typography variant='subtitle2'>View Article</Typography>
                 </Link>
             </CardActions>
         </Card>
