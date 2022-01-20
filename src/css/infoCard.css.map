@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,uBAAuB,CAAC;EACpB,OAAO,EAAE,CAAC;EACV,QAAQ,EAAE,QACd;CAAC",
+    "sources": [
+        "infoCard.scss"
+    ],
+    "names": [],
+    "file": "infoCard.css"
+}

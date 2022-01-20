@@ -6,7 +6,8 @@ import TabPanel from '@mui/lab/TabPanel';
 import TabContext from '@mui/lab/TabContext';
 import { useState } from 'react';
 import { Paper, Typography } from '@mui/material';
-import NewsCard from './newsCard';
+import NewsCardPanel from './newsCardPanel';
+import styles from '../css/infoCard.module.css'
 
 function InfoCard() {
     const [tabValue, setTabValue] = useState('1');
@@ -18,9 +19,10 @@ function InfoCard() {
     return(
         <Paper
             sx={{
-                borderRadius: 3,
-                height: '600px',
-                width: '500px'
+                borderRadius: 1,
+                maxHeight: '700px',
+                width: '70%',
+                overflow: 'hidden'
             }}
         >
             <Typography 
@@ -30,7 +32,7 @@ function InfoCard() {
                     margin: '15px 0'
                 }}
             >
-                Country
+                Global
             </Typography>
             <TabContext value={tabValue}>
                 <Box
@@ -46,10 +48,10 @@ function InfoCard() {
                         <Tab label='Stats' value='2'/>
                     </TabList>
                 </Box>
-                <TabPanel value='1'>
-                    <NewsCard/>
+                <TabPanel className={styles.newsCardPanelContainer} value='1'>
+                    <NewsCardPanel/>
                 </TabPanel>
-                <TabPanel value='2'>
+                <TabPanel className={styles.newsCardContainer} value='2'>
                     Stats
                 </TabPanel>
             </TabContext>
