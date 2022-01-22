@@ -1,5 +1,6 @@
-.statsGrid{
+.statsGrid {
     display: Grid;
     grid-template-columns: 1fr 1fr;
-    max-height: 550px;
+    grid-template-rows: 1fr 1fr 1fr 3fr;
+    height: 100%;
 }

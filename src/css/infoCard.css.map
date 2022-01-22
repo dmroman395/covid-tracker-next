@@ -1,6 +1,6 @@
 {
     "version": 3,
-    "mappings": "AAAA,AAAA,eAAe,CAAC;EACZ,OAAO,EAAE,CAAC;EACV,QAAQ,EAAE,QACd;CAAC",
+    "mappings": "AAAA,AAAA,eAAe,CAAC;EACZ,OAAO,EAAE,CAAC;EACV,QAAQ,EAAE,QAAQ;EAClB,SAAS,EAAE,CAAC;EACZ,UAAU,EAAE,CAAC;CAChB",
     "sources": [
         "infoCard.scss"
     ],

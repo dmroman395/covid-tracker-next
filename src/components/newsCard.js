@@ -1,13 +1,15 @@
 import React from 'react'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import CardActions from '@mui/material/CardActions';
 import Link from '@mui/material/Link';
 import styles from '../css/newsCard.module.css'
 
 function NewsCard({data}) {
-    const {title, excerpt, webUrl, provider} = data
+    const {title, excerpt, webUrl, provider, images} = data
+    const image = images !== null ? images[0].url : null
     const publisher = provider.name
 
     let modExcerpt
@@ -24,7 +26,8 @@ function NewsCard({data}) {
             sx={{
                 borderRadius:0,
                 borderBottom: 1,
-                borderColor: 'divider'
+                borderColor: 'divider',
+                alignItems: 'center'
             }}
         >
             <CardContent
@@ -61,12 +64,18 @@ function NewsCard({data}) {
             </CardContent>
             <CardActions>
                 <Link
-                    underline='always'
+                    underline='none'
                     href={webUrl}
                     target='_blank'
                     rel='noopener'
+                    sx={{
+                        border: 1,
+                        borderColor: 'primary',
+                        padding: '5px',
+                        borderRadius: '4px'
+                    }}
                 >
-                    <Typography variant='subtitle2'>View Article</Typography>
+                    <Typography variant='subtitle2' align='center'>View Article</Typography>
                 </Link>
             </CardActions>
         </Card>

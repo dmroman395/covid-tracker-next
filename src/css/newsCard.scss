@@ -1,9 +1,7 @@
 .newsCard {
     display: flex;
-    .imageContainer {
+    .media {
         padding: 15px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        height: 100%
     }
 }

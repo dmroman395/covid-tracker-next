@@ -1,4 +1,6 @@
 .panelContainer {
     padding: 0;
-    overflow: 'hidden'
+    overflow: 'hidden';
+    flex-grow: 1;
+    min-height: 0;
 }

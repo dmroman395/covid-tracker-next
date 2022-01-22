@@ -1,6 +1,6 @@
 import React from "react";
 import StatsCard from './statsCard'
-import StatsCard2 from './statsCard2'
+import ChartCard from './chartCard'
 import styles from '../css/statsCardPanel.module.css'
 
 const test =  {
@@ -21,7 +21,7 @@ function StatsCardPanel() {
             <StatsCard type={'New Deaths'} stat={test.newDeaths}/>
             <StatsCard type={'Total Recovered Cases'} stat={test.totalRecoveredCases}/>
             <StatsCard type={'Newly Recovered Cases'} stat={test.newlyRecoveredCases}/>
-            <StatsCard2 type={'Chart'} stat={test.newlyRecoveredCases}/>
+            <ChartCard type={'Newly Recovered Cases'} stat={test.newlyRecoveredCases}/>
         </div>
     )
 }

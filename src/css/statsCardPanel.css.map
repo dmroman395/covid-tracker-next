@@ -1,6 +1,6 @@
 {
     "version": 3,
-    "mappings": "AAAA,AAAA,UAAU,CAAA;EACN,OAAO,EAAE,IAAI;EACb,qBAAqB,EAAE,OAAO;EAC9B,UAAU,EAAE,KAAK;CACpB",
+    "mappings": "AAAA,AAAA,UAAU,CAAC;EACP,OAAO,EAAE,IAAI;EACb,qBAAqB,EAAE,OAAO;EAC9B,kBAAkB,EAAE,eAAe;EACnC,MAAM,EAAE,IAAI;CACf",
     "sources": [
         "statsCardPanel.scss"
     ],

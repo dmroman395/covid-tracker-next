@@ -9,8 +9,9 @@
 }
 
 .gridItem2 {
-  border-radius: 0;
   border: none;
   grid-column: span 2;
+  display: flex;
+  max-width: 100%;
 }
 /*# sourceMappingURL=statsCard.css.map */

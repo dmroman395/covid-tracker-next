@@ -22,9 +22,13 @@ function InfoCard() {
             elevation={10}
             sx={{
                 borderRadius: 1,
+                minHeight: '700px',
                 maxHeight: '700px',
-                width: '70%',
-                overflow: 'hidden'
+                width: '65%',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                // position: 'relative'
             }}
         >
             <Typography 
