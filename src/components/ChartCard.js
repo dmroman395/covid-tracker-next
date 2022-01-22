@@ -1,6 +1,5 @@
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
 import { selectDarkMode } from '../redux/darkModeSlice'
 import { useSelector } from 'react-redux'
 import styles from '../css/statsCard.module.css'
@@ -2461,19 +2460,6 @@ function ChartCard({dataSet}) {
     const darkMode = useSelector(selectDarkMode)
 
     ChartJS.defaults.color = darkMode ? '#FFFFFF' : '#666'
-
-    // let color
-    // const modNum = stat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-    // if (type.includes('Recovered')) {
-    //     if(darkMode) color = 'lightGreen'
-
-    //     if(!darkMode) color = 'green'
-    // }
-
-    // if (type.includes('Death')) color = 'red'
-
-    // if (type.includes('Confirmed')) color = 'orange'
 
     const options = {
         responsive: true,

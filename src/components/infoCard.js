@@ -6,12 +6,15 @@ import TabPanel from '@mui/lab/TabPanel';
 import TabContext from '@mui/lab/TabContext';
 import { useState } from 'react';
 import { Paper, Typography } from '@mui/material';
+import { selectCountry } from '../redux/countrySlice'
+import { useSelector } from 'react-redux'
 import NewsCardPanel from './newsCardPanel';
 import StatsCardPanel from './statsCardPanel';
 import styles from '../css/infoCard.module.css'
 
 function InfoCard() {
     const [tabValue, setTabValue] = useState('1');
+    const country = useSelector(selectCountry)
 
     const handleChange = (e, newVal) => {
       setTabValue(newVal);
@@ -38,7 +41,7 @@ function InfoCard() {
                     margin: '15px 0'
                 }}
             >
-                Global
+                {country.name}
             </Typography>
             <TabContext value={tabValue}>
                 <Box

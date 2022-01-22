@@ -1,5 +1,7 @@
 import React from 'react'
 import NewsCard from './newsCard'
+import { selectNews } from '../redux/newsSlice'
+import { useSelector } from 'react-redux'
 import styles from '../css/newsCardPanel.module.css'
 
 const test = [
@@ -1263,9 +1265,20 @@ const test = [
   ]
 
 function NewsCardPanel() {
-    const newsCardList = test.map((article, i) => {
+  const data = useSelector(selectNews)
+
+    let newsCardList
+
+    if (data) {
+      newsCardList = data.news.map((article, i) => {
         return <NewsCard data={article} key={i}/>
-    })
+      })
+    } else {
+      newsCardList = test.map((article, i) => {
+        return <NewsCard data={article} key={i}/>
+      })
+    }
+    
 
     return(
         <div className={styles.newsCardPanel}>

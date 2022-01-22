@@ -1,16 +1,23 @@
 import React, { useRef, useState } from 'react'
 import * as THREE from 'three'
 import { useTexture } from "@react-three/drei"
-import { useSelector } from 'react-redux'
+import { updateCountry } from '../redux/countrySlice'
+import { updateNews } from '../redux/newsSlice'
+import { updateStats } from '../redux/statsSlice'
+import { useSelector, useDispatch } from 'react-redux'
 import { selectDarkMode } from '../redux/darkModeSlice'
 import { selectTheme } from '../redux/themeSlice'
 const countryController = require('../controllers/countryController')
+const covidController = require('../controllers/covidController')
 
 const { getCountryFromProxy} = countryController
+
+const { getNewsFromProxy, getStatsFromProxy } = covidController
 
 function Scene() {
   const [isDragging, setIsDragging] = useState(false)
   const [isListeningForDrag, setIsListeningForDrag] = useState(false)
+  const dispatch = useDispatch()
   const darkMode = useSelector(selectDarkMode)
   const customTheme = useSelector(selectTheme)
 
@@ -68,7 +75,14 @@ function Scene() {
       const coords = calcLatLonFromPos(x,y,z)
 
       const country = await getCountryFromProxy(coords.lat, coords.lon)
-      console.log(country)
+      dispatch(updateCountry(country))
+
+      const news = await getNewsFromProxy(country.code)
+      dispatch(updateNews(news))
+
+      const stats = await getStatsFromProxy(country.code)
+      dispatch(updateStats(stats))
+      
     }
 
   return (
