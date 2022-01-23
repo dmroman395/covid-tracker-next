@@ -1273,7 +1273,11 @@ function NewsCardPanel() {
     newsCardList = data.news.map((article, i) => {
       return <NewsCard data={article} key={i}/>
     })
-  } else newsCardList = null
+  } else {
+    newsCardList = test.map((article, i) => {
+      return <NewsCard data={article} key={i}/>
+    })
+  }
 
   return(
       <div className={styles.newsCardPanel}>

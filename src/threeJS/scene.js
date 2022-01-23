@@ -10,7 +10,7 @@ import { selectTheme } from '../redux/themeSlice'
 const countryController = require('../controllers/countryController')
 const covidController = require('../controllers/covidController')
 
-const { getCountryFromProxy} = countryController
+const { getCountryFromProxy } = countryController
 
 const { getNewsFromProxy, getStatsFromProxy } = covidController
 

@@ -9,6 +9,16 @@ const getCountryFromProxy = async (lat, lon) => {
   };
 }
 
+const getCountryFromSearch = async (country) => {
+  try {
+    const data = await axios.get(`https://covid-tracker-express-server.herokuapp.com/search?country=${country}`)
+    return data.data
+  } catch(err) {
+    console.error(err)
+  };
+}
+
 module.exports = {
-  getCountryFromProxy
+  getCountryFromProxy,
+  getCountryFromSearch
 }
