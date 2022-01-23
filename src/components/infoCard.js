@@ -7,6 +7,7 @@ import TabContext from '@mui/lab/TabContext';
 import { useState } from 'react';
 import { Paper, Typography } from '@mui/material';
 import { selectCountry } from '../redux/countrySlice'
+import { selectDarkMode } from '../redux/darkModeSlice'
 import { useSelector } from 'react-redux'
 import NewsCardPanel from './newsCardPanel';
 import StatsCardPanel from './statsCardPanel';
@@ -15,6 +16,7 @@ import styles from '../css/infoCard.module.css'
 function InfoCard() {
     const [tabValue, setTabValue] = useState('1');
     const country = useSelector(selectCountry)
+    const darkMode = useSelector(selectDarkMode)
 
     const handleChange = (e, newVal) => {
       setTabValue(newVal);
@@ -57,7 +59,7 @@ function InfoCard() {
                         <Tab label='Stats' value='2'/>
                     </TabList>
                 </Box>
-                <TabPanel className={styles.panelContainer} value='1'>
+                <TabPanel className={darkMode ? `${styles.panelContainer} ${styles.dark}` : `${styles.panelContainer} ${styles.light}`} value='1'>
                     <NewsCardPanel/>
                 </TabPanel>
                 <TabPanel className={styles.panelContainer} value='2'>

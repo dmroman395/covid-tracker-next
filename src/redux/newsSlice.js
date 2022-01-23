@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const newsSlice = createSlice({
-    name: 'newsData',
+    name: 'news',
     initialState: {},
     reducers: {
         updateNews: (state, action) => {
@@ -12,6 +12,6 @@ export const newsSlice = createSlice({
 
 export const { updateNews } = newsSlice.actions
 
-export const selectNews = state => state.newsData
+export const selectNews = state => state.news
 
 export default newsSlice.reducer

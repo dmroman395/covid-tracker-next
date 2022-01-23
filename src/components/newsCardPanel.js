@@ -1262,29 +1262,24 @@ const test = [
       "categories": ["news"],
       "topics": ["Coronavirus in US", "Coronavirus"]
     }
-  ]
+]
 
 function NewsCardPanel() {
   const data = useSelector(selectNews)
 
-    let newsCardList
+  let newsCardList
 
-    if (data) {
-      newsCardList = data.news.map((article, i) => {
-        return <NewsCard data={article} key={i}/>
-      })
-    } else {
-      newsCardList = test.map((article, i) => {
-        return <NewsCard data={article} key={i}/>
-      })
-    }
-    
+  if (Object.keys(data).length > 0) {
+    newsCardList = data.news.map((article, i) => {
+      return <NewsCard data={article} key={i}/>
+    })
+  } else newsCardList = null
 
-    return(
-        <div className={styles.newsCardPanel}>
-            {newsCardList}
-        </div>
-    )
+  return(
+      <div className={styles.newsCardPanel}>
+          {newsCardList}
+      </div>
+  )
 }
 
 export default NewsCardPanel
