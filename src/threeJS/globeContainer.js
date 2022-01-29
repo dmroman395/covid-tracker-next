@@ -1,24 +1,24 @@
 import React, { Suspense, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import { selectCamera } from '../redux/cameraSlice';
 import Scene from './scene'
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import store from '../redux/store';
+import { useThree, useFrame } from '@react-three/fiber'
 
 function GlobeContainer() {
-
   return (
+    <Provider store={store}>
       <Canvas>
         <Suspense fallback={null}>
-          <PerspectiveCamera makeDefault fov={50} position={[0, 0, -2.75]}>
-            <directionalLight intensity={1} position={[-4,4,0]}/>
-          </PerspectiveCamera>
           <Provider store={store}>
             <Scene/>
-            </Provider>
-          <OrbitControls autoRotate autoRotateSpeed={1} enableZoom={false} enablePan={false} />
+          </Provider>
         </Suspense>
+        {/* <OrbitControls autoRotate autoRotateSpeed={.5} enableZoom={true} enablePan={true} /> */}
       </Canvas>
+    </Provider>
   )
 }
 

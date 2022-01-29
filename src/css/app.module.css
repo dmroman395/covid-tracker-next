@@ -25,7 +25,7 @@
 }
 
 .App .mainContent .infoContainer {
-  width: 50%;
+  width: 70%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -35,7 +35,7 @@
 }
 
 .App .mainContent .globeContainer {
-  width: 50%;
-  height: 95%;
+  width: 70%;
+  height: 90%;
 }
 /*# sourceMappingURL=app.css.map */

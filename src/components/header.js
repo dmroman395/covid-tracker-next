@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import DarkMode from './darkMode'
+import * as THREE from 'three'
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
@@ -7,8 +8,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import { selectDarkMode } from '../redux/darkModeSlice';
 import { updateSelecting } from '../redux/themeSlice'
 import { updateCountry } from '../redux/countrySlice'
+import { updatePosition } from '../redux/cameraSlice';
 import { updateNews } from '../redux/newsSlice'
 import { updateStats } from '../redux/statsSlice'
+import { calcPosFromLatLon } from '../threeJS/scene';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from  '../css/header.module.css'
 
@@ -33,14 +36,22 @@ function Header() {
 
     async function getSearchResults() {
         const results = await getCountryFromSearch(searchVal)
-        console.log(results)
         dispatch(updateCountry(results))
 
-        const news = await getNewsFromProxy(results.code)
-        dispatch(updateNews(news))
+        const {x,y,z} = calcPosFromLatLon(results.lat, results.lon)
 
-        const stats = await getStatsFromProxy(results.code)
-        dispatch(updateStats(stats))
+        const point = new THREE.Vector3(x,y,z)
+
+        const coeff = 1 + (1.75/1)
+
+        const newPos = [point.x * coeff, point.y * coeff, point.z * coeff]
+        dispatch(updatePosition(newPos))
+
+        // const news = await getNewsFromProxy(results.code)
+        // dispatch(updateNews(news))
+
+        // const stats = await getStatsFromProxy(results.code)
+        // dispatch(updateStats(stats))
     }
 
     function handleSelecting() {
