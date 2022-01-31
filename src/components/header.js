@@ -8,10 +8,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import { selectDarkMode } from '../redux/darkModeSlice';
 import { updateSelecting } from '../redux/themeSlice'
 import { updateCountry } from '../redux/countrySlice'
-import { updatePosition } from '../redux/cameraSlice';
 import { updateNews } from '../redux/newsSlice'
+import { disableRotation } from '../redux/rotationSlice';
 import { updateStats } from '../redux/statsSlice'
-import { calcPosFromLatLon } from '../threeJS/scene';
+import { calcPosFromLatLon, getCurve } from '../controllers/globeController';
+import { updateCurrentPosition, updateTargetPosition, updateCurve, resetCounter, selectCamera } from '../redux/cameraSlice'
 import { useSelector, useDispatch } from 'react-redux';
 import styles from  '../css/header.module.css'
 
@@ -19,13 +20,14 @@ const countryController = require('../controllers/countryController')
 const covidController = require('../controllers/covidController')
 
 
-const { getCountryFromSearch} = countryController
+const { getCountryFromSearch } = countryController
 
 const { getNewsFromProxy, getStatsFromProxy } = covidController
 
 function Header() {
     const dispatch = useDispatch()
     const darkMode = useSelector(selectDarkMode)
+    const cam = useSelector(selectCamera)
     const [searchVal, setSearchVal] = useState('')
 
     function setSearch(e) {
@@ -34,18 +36,45 @@ function Header() {
         setSearchVal(e.target.value)
     }
 
+    function rotateGlobe(lat, lon) {
+        // const dispatch = useDispatch()
+        // const cam = useSelector(selectCamera)
+        const c = calcPosFromLatLon(lat, lon)
+
+        console.log('searched')
+    
+        const point = new THREE.Vector3(c.x,c.y,c.z)
+    
+        const coeff = 1 + (1.75/1)
+    
+        const currPos = [cam.currentPosition[0], cam.currentPosition[1], cam.currentPosition[2]]
+    
+        const targetPos = [point.x * coeff, point.y * coeff, point.z * coeff]
+    
+        const curve = getCurve(currPos,targetPos)
+       
+        dispatch(resetCounter())
+        dispatch(updateCurrentPosition(currPos))
+        dispatch(updateTargetPosition(targetPos))
+        dispatch(updateCurve(curve))
+        dispatch(disableRotation())
+    }
+
     async function getSearchResults() {
         const results = await getCountryFromSearch(searchVal)
+        // console.log(results)
         dispatch(updateCountry(results))
 
-        const {x,y,z} = calcPosFromLatLon(results.lat, results.lon)
+        // const {x,y,z} = calcPosFromLatLon(results.lat, results.lon)
 
-        const point = new THREE.Vector3(x,y,z)
+        rotateGlobe(results.lat, results.lon)
 
-        const coeff = 1 + (1.75/1)
+        // const point = new THREE.Vector3(x,y,z)
 
-        const newPos = [point.x * coeff, point.y * coeff, point.z * coeff]
-        dispatch(updatePosition(newPos))
+        // const coeff = 1 + (1.75/1)
+
+        // const newPos = [point.x * coeff, point.y * coeff, point.z * coeff]
+        // dispatch(updateTargetPosition(newPos))
 
         // const news = await getNewsFromProxy(results.code)
         // dispatch(updateNews(news))
