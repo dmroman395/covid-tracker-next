@@ -5,9 +5,10 @@ import CardActions from "@mui/material/CardActions";
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
+import Grow from '@mui/material/Grow';
 import Wheel from '@uiw/react-color-wheel';
 import { selectDarkMode } from '../redux/darkModeSlice';
-import { selectTheme, updateTheme, updateSelecting } from '../redux/themeSlice'
+import { selectTheme, updateTheme, updateSelecting, selectSelecting } from '../redux/themeSlice'
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
 import styles from '../css/colorPickerContainer.module.css'
@@ -28,6 +29,7 @@ const colors = ['#ff1744','#f50057','#d500f9','#651fff','#3d5afe','#2979ff','#00
 function ColorPickerContainer() {
     const dispatch = useDispatch()
     const darkMode = useSelector(selectDarkMode)
+    const isSelecting = useSelector(selectSelecting)
     const currentTheme = useSelector(selectTheme)
     const classes = useStyles()
 
@@ -75,50 +77,55 @@ function ColorPickerContainer() {
     })
 
     return (
-        <Card
-            sx={{
-                width: 285,
-                bgcolor: darkMode ? '#424242' : '#E7EBF0'  
-            }}
+        <Grow
+            in={true}
+            timeout={300}
         >
-            <CardContent
+            <Card
                 sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center'
+                    width: 285,
+                    bgcolor: darkMode ? '#424242' : '#E7EBF0'  
                 }}
             >
-                {
-                    customColor
-                    ?
-                    <Wheel color={hex} onChange={color => setHex(color.hex)}/>
-                    :
-                    <Grid container spacing={0}>
-                        {gridItems}
-                    </Grid>
-                }
-            </CardContent>
-            <CardActions
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                }}
-            >
-                <div className={styles.colorButtons}>
-                    <Button variant='contained' onClick={toggleColorSelector}>{customColor ? 'Preset Color' : 'Custom Color'}</Button>
-                    <Button variant='contained' onClick={setNewTheme}>Confirm</Button>
-                </div>
-                <Button 
-                    variant='outlined'
+                <CardContent
                     sx={{
-                        width: '100%'
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
                     }}
-                    onClick={handleSelecting}
                 >
-                    Close
-                </Button>
-            </CardActions>
-        </Card>
+                    {
+                        customColor
+                        ?
+                        <Wheel color={hex} onChange={color => setHex(color.hex)}/>
+                        :
+                        <Grid container spacing={0}>
+                            {gridItems}
+                        </Grid>
+                    }
+                </CardContent>
+                <CardActions
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }}
+                >
+                    <div className={styles.colorButtons}>
+                        <Button variant='contained' onClick={toggleColorSelector}>{customColor ? 'Preset Color' : 'Custom Color'}</Button>
+                        <Button variant='contained' onClick={setNewTheme}>Confirm</Button>
+                    </div>
+                    <Button 
+                        variant='outlined'
+                        sx={{
+                            width: '100%'
+                        }}
+                        onClick={handleSelecting}
+                    >
+                        Close
+                    </Button>
+                </CardActions>
+            </Card>
+        </Grow>
     )
 }
 

@@ -5,6 +5,7 @@ import newsReducer from './newsSlice'
 import statsReducer from './statsSlice'
 import countryReducer from './countrySlice'
 import cameraReducer from "./cameraSlice";
+import rotationReducer from './rotationSlice'
 
 export default configureStore({
     reducer: {
@@ -13,6 +14,7 @@ export default configureStore({
         news: newsReducer,
         stats: statsReducer,
         country: countryReducer,
-        camera: cameraReducer
+        camera: cameraReducer,
+        rotation: rotationReducer
     }
 })

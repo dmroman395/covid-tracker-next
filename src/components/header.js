@@ -9,11 +9,12 @@ import { selectDarkMode } from '../redux/darkModeSlice';
 import { updateSelecting } from '../redux/themeSlice'
 import { updateCountry } from '../redux/countrySlice'
 import { updateNews } from '../redux/newsSlice'
-import { disableRotation } from '../redux/rotationSlice';
+import { disableRotation, toggleRotation, selectRotation } from '../redux/rotationSlice';
 import { updateStats } from '../redux/statsSlice'
 import { calcPosFromLatLon, getCurve } from '../controllers/globeController';
 import { updateCurrentPosition, updateTargetPosition, updateCurve, resetCounter, selectCamera } from '../redux/cameraSlice'
 import { useSelector, useDispatch } from 'react-redux';
+import coordinates from '../data/coordinates.json'
 import styles from  '../css/header.module.css'
 
 const countryController = require('../controllers/countryController')
@@ -28,6 +29,7 @@ function Header() {
     const dispatch = useDispatch()
     const darkMode = useSelector(selectDarkMode)
     const cam = useSelector(selectCamera)
+    const isRotating = useSelector(selectRotation)
     const [searchVal, setSearchVal] = useState('')
 
     function setSearch(e) {
@@ -36,12 +38,11 @@ function Header() {
         setSearchVal(e.target.value)
     }
 
-    function rotateGlobe(lat, lon) {
-        // const dispatch = useDispatch()
-        // const cam = useSelector(selectCamera)
+    function rotateGlobe() {
+        const {lat, lon} = coordinates[searchVal]
         const c = calcPosFromLatLon(lat, lon)
 
-        console.log('searched')
+        // console.log(searchVal)
     
         const point = new THREE.Vector3(c.x,c.y,c.z)
     
@@ -62,25 +63,19 @@ function Header() {
 
     async function getSearchResults() {
         const results = await getCountryFromSearch(searchVal)
-        // console.log(results)
         dispatch(updateCountry(results))
 
-        // const {x,y,z} = calcPosFromLatLon(results.lat, results.lon)
+        rotateGlobe()
 
-        rotateGlobe(results.lat, results.lon)
+        const news = await getNewsFromProxy(results.code)
+        dispatch(updateNews(news))
 
-        // const point = new THREE.Vector3(x,y,z)
+        const stats = await getStatsFromProxy(results.code)
+        dispatch(updateStats(stats))
+    }
 
-        // const coeff = 1 + (1.75/1)
-
-        // const newPos = [point.x * coeff, point.y * coeff, point.z * coeff]
-        // dispatch(updateTargetPosition(newPos))
-
-        // const news = await getNewsFromProxy(results.code)
-        // dispatch(updateNews(news))
-
-        // const stats = await getStatsFromProxy(results.code)
-        // dispatch(updateStats(stats))
+    function handleRotationToggle() {
+        dispatch(toggleRotation())
     }
 
     function handleSelecting() {
@@ -89,16 +84,29 @@ function Header() {
     
     return (
             <div className={styles.header}>
+                <div>
+                <Button 
+                    variant='contained' 
+                    size='small'
+                    sx={{
+                        fontWeight: 600,
+                        marginRight: '10px' 
+                    }}
+                    onClick={handleSelecting}
+                >
+                    Change Theme
+                </Button>
                 <Button 
                     variant='contained' 
                     size='small'
                     sx={{
                         fontWeight: 600
                     }}
-                    onClick={handleSelecting}
+                    onClick={handleRotationToggle}
                 >
-                    Change Theme
+                    {`${isRotating ? 'Disable' : 'Enable'} Rotation`}
                 </Button>
+                </div>
                 <div className={styles.search}>
                     <TextField 
                     label="Search..." 

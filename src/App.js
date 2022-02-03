@@ -3,16 +3,16 @@ import React from "react";
 import Header from './components/header';
 import Box from '@mui/material/Box';
 import InfoCard from'./components/infoCard'
-import Button from '@mui/material/Button';
-import StatsCard from './components/statsCard';
-import ColorPickerOverlay from './components/colorPickerOverlay';
+import Modal from '@mui/material/Modal';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { selectDarkMode } from './redux/darkModeSlice';
-import { selectTheme, selectSelecting } from './redux/themeSlice'
-import { useSelector } from 'react-redux';
+import { selectTheme, selectSelecting, updateSelecting } from './redux/themeSlice'
+import { useSelector, useDispatch } from 'react-redux';
 import GlobeContainer from './threeJS/globeContainer';
+import ColorPickerContainer from './components/colorPickerContainer';
 
 function App() {
+  const dispatch = useDispatch()
   const darkMode = useSelector(selectDarkMode)
   const customTheme = useSelector(selectTheme)
   const isSelecting = useSelector(selectSelecting)  
@@ -47,9 +47,33 @@ function App() {
   },
   })
 
+  function handleBackdrop() {
+    dispatch(updateSelecting())
+  }
+
   return (
     <ThemeProvider theme={theme}>
-      {isSelecting ? <ColorPickerOverlay/> : null}
+      <Modal
+        open={isSelecting}
+        closeAfterTransition
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        BackdropProps={{
+          timeout: 300,
+          sx:{
+            backdropFilter: 'blur(5px)'
+          }
+        }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+        onBackdropClick={handleBackdrop}
+      >
+        <ColorPickerContainer/>
+      </Modal>
+      {/* {isSelecting ? : null} */}
       <Box 
         className={styles.App}
         sx={{

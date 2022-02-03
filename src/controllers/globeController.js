@@ -27,7 +27,7 @@ export function getCurve(start, end) {
     let points = []
 
     for (let i = 0; i < 20; i++) {
-      let p = new THREE.Vector3().lerpVectors(v1,v2, i/12)
+      let p = new THREE.Vector3().lerpVectors(v1,v2, i/17)
       p.normalize()
       p.multiplyScalar(2.8)
       points.push(p)
@@ -35,7 +35,7 @@ export function getCurve(start, end) {
     
     const path = new THREE.CatmullRomCurve3(points)
 
-    const curvePoints = path.getPoints(20)
+    const curvePoints = path.getPoints(50)
 
     let pointsArr = []
 
