@@ -1,17 +1,14 @@
-import React, { useState } from "react";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from "@mui/material/CardActions";
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
-import Grow from '@mui/material/Grow';
+import Grid from '@mui/material/Grid';
 import Wheel from '@uiw/react-color-wheel';
-import { selectDarkMode } from '../redux/darkModeSlice';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
 import { selectTheme, updateTheme, updateSelecting, selectSelecting } from '../redux/themeSlice'
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles } from '@mui/styles';
-import styles from '../css/colorPickerContainer.module.css'
+import styles from '../css/themeDialog.module.css'
 
 const useStyles = makeStyles({
     root: {
@@ -26,9 +23,10 @@ const useStyles = makeStyles({
 
 const colors = ['#ff1744','#f50057','#d500f9','#651fff','#3d5afe','#2979ff','#00b0ff','#00e5ff','#1de9b6','#00e676','#76ff03','#c6ff00','#ffea00','#ffc400','#ff9100','#ff3d00']
 
-function ColorPickerContainer() {
+
+
+function ThemeDialog() {
     const dispatch = useDispatch()
-    const darkMode = useSelector(selectDarkMode)
     const isSelecting = useSelector(selectSelecting)
     const currentTheme = useSelector(selectTheme)
     const classes = useStyles()
@@ -76,35 +74,38 @@ function ColorPickerContainer() {
         )
     })
 
-    return (
-        <Grow
-            in={true}
-            timeout={300}
+    return(
+        <Dialog
+            open={isSelecting}
+            onBackdropClick={handleSelecting}
+            sx={{
+                backdropFilter: 'blur(4px)'
+            }}
+            transitionDuration={{
+                enter: 300,
+                exit: 150
+            }}
         >
-            <Card
+            
+            {/* <DialogTitle><Typography align='center' variant='h4'>Choose Color</Typography></DialogTitle> */}
+            <DialogContent
                 sx={{
-                    width: 285,
-                    bgcolor: darkMode ? '#424242' : '#E7EBF0'  
+                    width: 251,
+                    display: 'flex',
+                    justifyContent: 'center'
                 }}
             >
-                <CardContent
-                    sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center'
-                    }}
-                >
-                    {
-                        customColor
-                        ?
-                        <Wheel color={hex} onChange={color => setHex(color.hex)}/>
-                        :
-                        <Grid container spacing={0}>
-                            {gridItems}
-                        </Grid>
-                    }
-                </CardContent>
-                <CardActions
+                {
+                    customColor
+                    ?
+                    <Wheel color={hex} onChange={color => setHex(color.hex)}/>
+                    :
+                    <Grid container spacing={0}>
+                        {gridItems}
+                    </Grid>
+                }
+            </DialogContent>
+            <DialogActions
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -123,10 +124,9 @@ function ColorPickerContainer() {
                     >
                         Close
                     </Button>
-                </CardActions>
-            </Card>
-        </Grow>
+                </DialogActions>
+        </Dialog>
     )
 }
 
-export default ColorPickerContainer;
+export default ThemeDialog
