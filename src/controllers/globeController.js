@@ -1,5 +1,3 @@
-import { updateCurrentPosition, updateTargetPosition, updateCurve, incrementCounter, resetCounter, selectCamera } from '../redux/cameraSlice'
-import { useDispatch,useSelector } from 'react-redux'
 import * as THREE from 'three'
 
 export function calcLatLonFromPos(x,y,z) {

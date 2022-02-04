@@ -7,34 +7,22 @@ import { updateStats } from '../redux/statsSlice'
 import { OrbitControls} from "@react-three/drei";
 import { selectRotation } from '../redux/rotationSlice'
 import { selectCamera, updateCurrentPosition, updateCurve, incrementCounter } from '../redux/cameraSlice'
+import { setLoadingFalse, setLoadingTrue } from '../redux/loadingSlice'
 import { PerspectiveCamera } from "@react-three/drei";
 import { useThree, useFrame } from '@react-three/fiber'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectDarkMode } from '../redux/darkModeSlice'
 import { selectTheme } from '../redux/themeSlice'
-const countryController = require('../controllers/countryController')
-const covidController = require('../controllers/covidController')
-
-const { getCountryFromProxy } = countryController
-
-const { getNewsFromProxy, getStatsFromProxy } = covidController
+import { calcLatLonFromPos } from '../controllers/globeController'
+import { getCountryFromProxy } from '../controllers/countryController'
+import { getNewsFromProxy, getStatsFromProxy } from '../controllers/covidController'
 
 let glow
-
-export function calcPosFromLatLon(lat, lon) {
-  const phi = (90 - lat)*(Math.PI/180)
-  const theta = (lon +180)*(Math.PI/180)
-
-  const x = -(Math.sin(phi)*Math.cos(theta))
-  const z = (Math.sin(phi)*Math.sin(theta))
-  const y = (Math.cos(phi))
-
-  return {x,y,z}
-}
 
 function Scene() {
   const [isDragging, setIsDragging] = useState(false)
   const [isListeningForDrag, setIsListeningForDrag] = useState(false)
+
   const dispatch = useDispatch()
   const darkMode = useSelector(selectDarkMode)
   const customTheme = useSelector(selectTheme)
@@ -102,12 +90,29 @@ function Scene() {
     camera.lookAt(globe.position)
   })
 
+  async function fetchData(coords) {
+    dispatch(setLoadingTrue())
+    
+    const country = await getCountryFromProxy(coords.lat, coords.lon)
+    dispatch(updateCountry(country))
+
+    const news = await getNewsFromProxy(country.code)
+    dispatch(updateNews(news))
+
+    const stats = await getStatsFromProxy(country.code)
+    dispatch(updateStats(stats))
+
+    dispatch(setLoadingFalse())
+  }
+
   function handleClick(e) {
     e.stopPropagation()
 
     const {x, y, z} = e.intersections[0].point
 
     const coords = calcLatLonFromPos(x,y,z)
+
+    fetchData(coords)
   }
 
   return (

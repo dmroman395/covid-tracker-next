@@ -6,6 +6,7 @@ import statsReducer from './statsSlice'
 import countryReducer from './countrySlice'
 import cameraReducer from "./cameraSlice";
 import rotationReducer from './rotationSlice'
+import loadingReducer from './loadingSlice'
 
 export default configureStore({
     reducer: {
@@ -15,6 +16,7 @@ export default configureStore({
         stats: statsReducer,
         country: countryReducer,
         camera: cameraReducer,
-        rotation: rotationReducer
+        rotation: rotationReducer,
+        loading: loadingReducer
     }
 })

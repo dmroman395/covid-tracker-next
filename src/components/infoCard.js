@@ -4,10 +4,12 @@ import TabList from '@mui/lab/TabList';
 import Tab from '@mui/material/Tab';
 import TabPanel from '@mui/lab/TabPanel';
 import TabContext from '@mui/lab/TabContext';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useState } from 'react';
 import { Paper, Typography } from '@mui/material';
 import { selectCountry } from '../redux/countrySlice'
 import { selectDarkMode } from '../redux/darkModeSlice'
+import { selectLoading } from '../redux/loadingSlice';
 import { useSelector } from 'react-redux'
 import NewsCardPanel from './newsCardPanel';
 import StatsCardPanel from './statsCardPanel';
@@ -17,26 +19,16 @@ function InfoCard() {
     const [tabValue, setTabValue] = useState('1');
     const country = useSelector(selectCountry)
     const darkMode = useSelector(selectDarkMode)
+    const isLoading = useSelector(selectLoading)
+
+    console.log(isLoading)
 
     const handleChange = (e, newVal) => {
       setTabValue(newVal);
     };
 
-    return(
-        <Paper
-            elevation={10}
-            sx={{
-                borderRadius: 1,
-                minHeight: '700px',
-                maxHeight: '700px',
-                width: '65%',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
-                // position: 'relative'
-            }}
-        >
-            <Typography 
+    const content = <>
+        <Typography 
                 variant='h4' 
                 align='center'
                 sx={{
@@ -66,6 +58,24 @@ function InfoCard() {
                     <StatsCardPanel/>
                 </TabPanel>
             </TabContext>
+    </>
+
+    return(
+        <Paper
+            elevation={10}
+            sx={{
+                borderRadius: 1,
+                minHeight: '700px',
+                maxHeight: '700px',
+                width: '65%',
+                overflow: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}
+        >
+            {isLoading ? <CircularProgress size='9rem' thickness={2.5}/> : content}
         </Paper>  
     )
 }

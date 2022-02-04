@@ -11,9 +11,6 @@ export const cameraSlice = createSlice({
     reducers: {
         updateCurrentPosition: (state, action) => {
             state.currentPosition = action.payload
-            // state.targetPosition = action.payload.targetPosition
-            // state.curveArr = action.payload.curveArr
-            // state.counter = action.payload.counter
         },
         updateTargetPosition: (state, action) => {
             state.targetPosition = action.payload
