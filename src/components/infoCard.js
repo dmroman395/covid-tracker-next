@@ -41,9 +41,7 @@ function InfoCard() {
                 <Box
                     sx={{
                         borderBottom: 1, 
-                        borderColor: 'divider',
-                        borderTopLeftRadius: 3,
-                        borderTopRightRadius: 3
+                        borderColor: 'divider'
                     }}
                 >
                     <TabList variant='fullWidth' onChange={handleChange}>
@@ -71,11 +69,11 @@ function InfoCard() {
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center'
+                justifyContent: isLoading ? 'center' : null,
+                alignItems: isLoading ? 'center' : null
             }}
         >
-            {isLoading ? <CircularProgress size='9rem' thickness={2.5}/> : content}
+            {isLoading ? <CircularProgress size='8rem' thickness={2.25}/> : content}
         </Paper>  
     )
 }
