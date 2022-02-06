@@ -3,6 +3,7 @@ import NewsCard from './newsCard'
 import { selectNews } from '../redux/newsSlice'
 import { useSelector } from 'react-redux'
 import styles from '../css/newsCardPanel.module.css'
+import { Typography } from '@mui/material'
 
 const test = [
     {

@@ -21,8 +21,6 @@ function InfoCard() {
     const darkMode = useSelector(selectDarkMode)
     const isLoading = useSelector(selectLoading)
 
-    console.log(isLoading)
-
     const handleChange = (e, newVal) => {
       setTabValue(newVal);
     };

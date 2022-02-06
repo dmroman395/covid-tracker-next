@@ -22,6 +22,7 @@ let glow
 function Scene() {
   const [isDragging, setIsDragging] = useState(false)
   const [isListeningForDrag, setIsListeningForDrag] = useState(false)
+  const [markerPos, setMarkerPos] = useState({lat: 0, lon: 0 })
 
   const dispatch = useDispatch()
   const darkMode = useSelector(selectDarkMode)
@@ -87,6 +88,8 @@ function Scene() {
       dispatch(updateCurrentPosition(updatedPos))
       dispatch(incrementCounter())
     }
+
+
     camera.lookAt(globe.position)
   })
 
@@ -94,6 +97,9 @@ function Scene() {
     dispatch(setLoadingTrue())
     
     const country = await getCountryFromProxy(coords.lat, coords.lon)
+   
+    if (country === undefined) return
+
     dispatch(updateCountry(country))
 
     const news = await getNewsFromProxy(country.code)
@@ -105,14 +111,82 @@ function Scene() {
     dispatch(setLoadingFalse())
   }
 
+    const radius = 0.01;
+    const sphereRadius = 0.0097;
+    const height = 0.1;
+
+    const material = new THREE.MeshPhongMaterial({ color: 'red' });
+
+    const cone = new THREE.Mesh(new THREE.ConeBufferGeometry(radius, height, 8, 1, true), material);
+    cone.position.y = height * 0.5;
+    cone.rotation.x = Math.PI;
+
+    const sphere = new THREE.Mesh(new THREE.SphereBufferGeometry(sphereRadius, 16, 8), material);
+    sphere.position.y = height * 0.90 + sphereRadius;
+    // const group = new THREE.Group()
+    // group.add(cone)
+    // group.add(sphere)
+    // globe.add(marker)
+
+    const marker = new THREE.Object3D()
+    marker.add(cone)
+    marker.add(sphere)
+    console.log(scene.children)
+    globe.add(marker)
+
+  function Marker() {
+
+    var radius = 0.01;
+    var sphereRadius = 0.0097;
+    var height = 0.1;
+
+    var material = new THREE.MeshPhongMaterial({ color: 'red' });
+
+    var cone = new THREE.Mesh(new THREE.ConeBufferGeometry(radius, height, 8, 1, true), material);
+    cone.position.y = height * 0.5;
+    cone.rotation.x = Math.PI;
+
+    var sphere = new THREE.Mesh(new THREE.SphereBufferGeometry(sphereRadius, 16, 8), material);
+    sphere.position.y = height * 0.90 + sphereRadius;
+    // const group = new THREE.Group()
+    // group.add(cone)
+    // group.add(sphere)
+
+    const marker = new THREE.Object3D()
+    marker.add(cone)
+    marker.add(sphere)
+
+    return marker
+}
+
+  function createMarker() {
+    var marker = new Marker();
+
+    var latRad = markerPos.lat * (Math.PI / 180);
+    var lonRad = -markerPos.lon * (Math.PI / 180);
+    var r = 1;
+    // 
+
+    // console.log(marker)
+
+    marker.position.set(Math.cos(latRad) * Math.cos(lonRad) * r, Math.sin(latRad) * r, Math.cos(latRad) * Math.sin(lonRad) * r);
+    marker.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
+
+    // setMarker(marker)
+    globe.add(marker)
+    // console.log(marker)
+  }
+
   function handleClick(e) {
     e.stopPropagation()
 
     const {x, y, z} = e.intersections[0].point
 
     const coords = calcLatLonFromPos(x,y,z)
+    
+    // createPoint(coords.lat, coords.lon)
 
-    fetchData(coords)
+    // fetchData(coords)
   }
 
   return (
@@ -126,9 +200,9 @@ function Scene() {
        </sprite>
        <mesh ref={globeRef} name={'earth'} onClick={isDragging ? null :  e => handleClick(e)} onPointerMove={isListeningForDrag ? e => handleDrag(e) : null} onPointerDown={addDragListnener} onPointerUp={removeDragListener}>
           <sphereGeometry args={[1, 100, 100]}/>
-          <meshPhongMaterial {...props}  bumpScale={.002} color={customTheme} transparent={true} alphaTest={.05} opacity={1} depthWrite={false} depthTest={false}/>
+          <meshPhongMaterial {...props}  bumpScale={.002} color={customTheme} transparent={true} alphaTest={.05} opacity={1} depthWrite={true} depthTest={true}/>
        </mesh>
-       <OrbitControls autoRotate={isRotating} autoRotateSpeed={.75} enableZoom={false} enablePan={false}/>
+       <OrbitControls autoRotate={isRotating} autoRotateSpeed={.75} enableZoom={!false} enablePan={false}/>
     </>
   )
 }
