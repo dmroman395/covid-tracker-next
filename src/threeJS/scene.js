@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
+import Marker from './marker'
 import { useTexture } from "@react-three/drei"
 import { updateCountry } from '../redux/countrySlice'
 import { updateNews } from '../redux/newsSlice'
@@ -89,6 +90,16 @@ function Scene() {
       dispatch(incrementCounter())
     }
 
+    if (globe.children.length > 0 ) {
+      const marker = globe.children[0]
+      const cone = marker.children[0]
+      const sphere = marker.children[1]
+
+      const newColor = new THREE.Color(customTheme)
+
+      sphere.material.color = newColor
+      cone.material.color = newColor
+    } 
 
     camera.lookAt(globe.position)
   })
@@ -111,36 +122,13 @@ function Scene() {
     dispatch(setLoadingFalse())
   }
 
-    const radius = 0.01;
-    const sphereRadius = 0.0097;
-    const height = 0.1;
-
-    const material = new THREE.MeshPhongMaterial({ color: 'red' });
-
-    const cone = new THREE.Mesh(new THREE.ConeBufferGeometry(radius, height, 8, 1, true), material);
-    cone.position.y = height * 0.5;
-    cone.rotation.x = Math.PI;
-
-    const sphere = new THREE.Mesh(new THREE.SphereBufferGeometry(sphereRadius, 16, 8), material);
-    sphere.position.y = height * 0.90 + sphereRadius;
-    // const group = new THREE.Group()
-    // group.add(cone)
-    // group.add(sphere)
-    // globe.add(marker)
-
-    const marker = new THREE.Object3D()
-    marker.add(cone)
-    marker.add(sphere)
-    console.log(scene.children)
-    globe.add(marker)
-
   function Marker() {
 
     var radius = 0.01;
     var sphereRadius = 0.0097;
     var height = 0.1;
 
-    var material = new THREE.MeshPhongMaterial({ color: 'red' });
+    var material = new THREE.MeshPhongMaterial({ color: customTheme });
 
     var cone = new THREE.Mesh(new THREE.ConeBufferGeometry(radius, height, 8, 1, true), material);
     cone.position.y = height * 0.5;
@@ -159,15 +147,13 @@ function Scene() {
     return marker
 }
 
-  function createMarker() {
-    var marker = new Marker();
+  function createMarker(lat, lon) {
 
-    var latRad = markerPos.lat * (Math.PI / 180);
-    var lonRad = -markerPos.lon * (Math.PI / 180);
-    var r = 1;
-    // 
+    const marker = new Marker();
 
-    // console.log(marker)
+    const latRad = lat * (Math.PI / 180);
+    const lonRad = -lon * (Math.PI / 180);
+    const r = 1;
 
     marker.position.set(Math.cos(latRad) * Math.cos(lonRad) * r, Math.sin(latRad) * r, Math.cos(latRad) * Math.sin(lonRad) * r);
     marker.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
@@ -177,14 +163,28 @@ function Scene() {
     // console.log(marker)
   }
 
+  function updateMarker(lat, lon) {
+    const marker = globe.children[0]
+
+    const latRad = lat * (Math.PI / 180);
+    const lonRad = -lon * (Math.PI / 180);
+    const r = 1;
+
+    marker.position.set(Math.cos(latRad) * Math.cos(lonRad) * r, Math.sin(latRad) * r, Math.cos(latRad) * Math.sin(lonRad) * r);
+    marker.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
+  }
+
   function handleClick(e) {
     e.stopPropagation()
 
     const {x, y, z} = e.intersections[0].point
 
     const coords = calcLatLonFromPos(x,y,z)
-    
-    // createPoint(coords.lat, coords.lon)
+
+
+    if (globe.children.length == 0 ) {
+      createMarker(coords.lat, coords.lon)
+    } else updateMarker(coords.lat, coords.lon)
 
     // fetchData(coords)
   }
@@ -202,6 +202,7 @@ function Scene() {
           <sphereGeometry args={[1, 100, 100]}/>
           <meshPhongMaterial {...props}  bumpScale={.002} color={customTheme} transparent={true} alphaTest={.05} opacity={1} depthWrite={true} depthTest={true}/>
        </mesh>
+       {/* <Marker/> */}
        <OrbitControls autoRotate={isRotating} autoRotateSpeed={.75} enableZoom={!false} enablePan={false}/>
     </>
   )
