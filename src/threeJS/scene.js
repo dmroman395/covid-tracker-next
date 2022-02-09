@@ -19,6 +19,7 @@ import { getCountryFromProxy } from '../controllers/countryController'
 import { getNewsFromProxy, getStatsFromProxy } from '../controllers/covidController'
 
 let glow
+let markerMap
 
 function Scene() {
   const [isDragging, setIsDragging] = useState(false)
@@ -33,6 +34,7 @@ function Scene() {
 
   useEffect(() => {
     glow = new THREE.TextureLoader().load('glow.png')
+    markerMap = new THREE.TextureLoader().load('marker.png')
   }, [])
 
   const props = useTexture({
@@ -95,7 +97,7 @@ function Scene() {
       const cone = marker.children[0]
       const sphere = marker.children[1]
 
-      const newColor = new THREE.Color(customTheme)
+      const newColor = darkMode ? new THREE.Color('white') : new THREE.Color('black')
 
       sphere.material.color = newColor
       cone.material.color = newColor
@@ -123,24 +125,21 @@ function Scene() {
   }
 
   function Marker() {
+    const radius = 0.01;
+    const sphereRadius = 0.0097;
+    const height = 0.1;
 
-    var radius = 0.01;
-    var sphereRadius = 0.0097;
-    var height = 0.1;
+    const material = new THREE.MeshPhongMaterial({transparent: true, depthTest: true, depthWrite: true, alphaMap: markerMap });
 
-    var material = new THREE.MeshPhongMaterial({ color: customTheme });
-
-    var cone = new THREE.Mesh(new THREE.ConeBufferGeometry(radius, height, 8, 1, true), material);
+    const cone = new THREE.Mesh(new THREE.ConeBufferGeometry(radius, height, 8, 1, true), material);
     cone.position.y = height * 0.5;
     cone.rotation.x = Math.PI;
 
-    var sphere = new THREE.Mesh(new THREE.SphereBufferGeometry(sphereRadius, 16, 8), material);
+    const sphere = new THREE.Mesh(new THREE.SphereBufferGeometry(sphereRadius, 16, 8), material);
     sphere.position.y = height * 0.90 + sphereRadius;
-    // const group = new THREE.Group()
-    // group.add(cone)
-    // group.add(sphere)
 
     const marker = new THREE.Object3D()
+    marker.renderOrder = 2
     marker.add(cone)
     marker.add(sphere)
 
@@ -158,9 +157,7 @@ function Scene() {
     marker.position.set(Math.cos(latRad) * Math.cos(lonRad) * r, Math.sin(latRad) * r, Math.cos(latRad) * Math.sin(lonRad) * r);
     marker.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
 
-    // setMarker(marker)
     globe.add(marker)
-    // console.log(marker)
   }
 
   function updateMarker(lat, lon) {
@@ -172,6 +169,8 @@ function Scene() {
 
     marker.position.set(Math.cos(latRad) * Math.cos(lonRad) * r, Math.sin(latRad) * r, Math.cos(latRad) * Math.sin(lonRad) * r);
     marker.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
+
+    console.log(marker)
   }
 
   function handleClick(e) {
@@ -198,11 +197,14 @@ function Scene() {
        <sprite scale={[4,4,1]} >
           <spriteMaterial {...spriteMaterial} />
        </sprite>
-       <mesh ref={globeRef} name={'earth'} onClick={isDragging ? null :  e => handleClick(e)} onPointerMove={isListeningForDrag ? e => handleDrag(e) : null} onPointerDown={addDragListnener} onPointerUp={removeDragListener}>
+       <mesh renderOrder={3}>
           <sphereGeometry args={[1, 100, 100]}/>
-          <meshPhongMaterial {...props}  bumpScale={.002} color={customTheme} transparent={true} alphaTest={.05} opacity={1} depthWrite={true} depthTest={true}/>
+          <meshPhongMaterial transparent={true} depthWrite={true} depthTest={true} colorWrite={false}/>
        </mesh>
-       {/* <Marker/> */}
+       <mesh ref={globeRef} renderOrder={0} name={'earth'} onClick={isDragging ? null :  e => handleClick(e)} onPointerMove={isListeningForDrag ? e => handleDrag(e) : null} onPointerDown={addDragListnener} onPointerUp={removeDragListener}>
+          <sphereGeometry args={[1, 100, 100]}/>
+          <meshPhongMaterial {...props} bumpScale={.002} color={customTheme} transparent={true} alphaTest={.05} opacity={1} depthWrite={false} depthTest={false}/>
+       </mesh>
        <OrbitControls autoRotate={isRotating} autoRotateSpeed={.75} enableZoom={!false} enablePan={false}/>
     </>
   )
