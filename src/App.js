@@ -4,6 +4,7 @@ import Header from './components/header';
 import Box from '@mui/material/Box';
 import InfoCard from'./components/infoCard'
 import ThemeDialog from './components/themeDialog';
+import ErrorDialog from './components/errorDialog';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { setLoadingFalse, setLoadingTrue } from './redux/loadingSlice'
 import { useDispatch } from 'react-redux';
@@ -67,6 +68,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <ThemeDialog/>
+      <ErrorDialog/>
       <Box 
         className={styles.App}
         sx={{

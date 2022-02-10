@@ -5,10 +5,10 @@ export const errorSlice = createSlice({
     initialState: '',
     reducers: {
         updateError: (state, action) => {
-            state = `Sorry, we couldn't find ${action.payload}`
+           return `Sorry, we couldn't find "${action.payload}"`
         },
         resetError : state => {
-            state = ''
+           return ''
         }
     }
 })

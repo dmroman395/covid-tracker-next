@@ -15,6 +15,7 @@ import { calcPosFromLatLon, getCurve } from '../controllers/globeController';
 import { setLoadingFalse, setLoadingTrue } from '../redux/loadingSlice'
 import { updateCurrentPosition, updateTargetPosition, updateCurve, resetCounter, selectCamera } from '../redux/cameraSlice'
 import { useSelector, useDispatch } from 'react-redux';
+import { updateError } from'../redux/errorSlice'
 import coordinates from '../data/coordinates.json'
 import styles from  '../css/header.module.css'
 
@@ -68,7 +69,7 @@ function Header() {
 
         const results = await getCountryFromSearch(searchVal)
         if (Object.keys(results).length == 0) {
-            console.log(`Sorry, we couldn't find ${searchVal}`)
+            dispatch(updateError(searchVal))
             dispatch(setLoadingFalse())
             return
         }
