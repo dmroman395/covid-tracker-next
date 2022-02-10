@@ -1,78 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Wheel from '@uiw/react-color-wheel';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import { selectTheme, updateTheme, updateSelecting, selectSelecting } from '../redux/themeSlice'
 import { useSelector, useDispatch } from 'react-redux';
-import { makeStyles } from '@mui/styles';
-import styles from '../css/themeDialog.module.css'
-
-const useStyles = makeStyles({
-    root: {
-        "&:focus": {
-          border: "1px solid black"
-        },
-        "&:hover": {
-            backgroundColor: 'transparent'
-        }
-      },
-  });
-
-const colors = ['#ff1744','#f50057','#d500f9','#651fff','#3d5afe','#2979ff','#00b0ff','#00e5ff','#1de9b6','#00e676','#76ff03','#c6ff00','#ffea00','#ffc400','#ff9100','#ff3d00']
+import { selectError } from'../redux/errorSlice'
 
 
-
-function ThemeDialog() {
+function ErrorDialog() {
     const dispatch = useDispatch()
-    const isSelecting = useSelector(selectSelecting)
-    const currentTheme = useSelector(selectTheme)
-    const classes = useStyles()
-
-    const [customColor, setCustomColor] = useState(false)
-    const [hex, setHex] = useState(currentTheme)
-    
-
-    function toggleColorSelector() {
-        setCustomColor(!customColor)
-    }
-
-    function setNewTheme() {
-        dispatch(updateTheme(hex))
-    }
-
-    function handleSelecting() {
-        dispatch(updateSelecting())
-    }
-
-    const gridItems = colors.map((color, key) => {
-        function setPresetColor() {
-            setHex(color)
-        }
-
-        return (
-            <Grid item xs={3} key={key}
-                sx={{
-                    bgcolor: color,
-                    height: 65
-                }}
-            >
-                <Button
-                    className={classes.root}
-                    variant='plain'
-                    elevation={0}
-                    disableRipple	
-                    sx={{
-                        bgcolor: 'transparent',
-                    }}
-                    onClick={setPresetColor}
-                >
-                </Button>
-            </Grid>
-        )
-    })
+    const errorMsg = useSelector(selectError)
 
     return(
         <Dialog

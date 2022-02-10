@@ -21,7 +21,7 @@ function StatsCardPanel() {
 
     return (
         <div className={styles.statsGrid}>
-            {Object.keys(stats).length > 0 ? statsCards : <Typography align={'center'} sx={{ marginTop: '10px'}}>No information currently available</Typography>}
+            {Object.keys(stats).length > 0 ? statsCards : <Typography align={'center'} sx={{ marginTop: '10px', colSpan: '2'}}>No information currently available</Typography>}
         </div>
     )
 }

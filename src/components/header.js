@@ -65,8 +65,14 @@ function Header() {
     async function getSearchResults(e) {
         e.preventDefault()
         dispatch(setLoadingTrue())
-        
+
         const results = await getCountryFromSearch(searchVal)
+        if (Object.keys(results).length == 0) {
+            console.log(`Sorry, we couldn't find ${searchVal}`)
+            dispatch(setLoadingFalse())
+            return
+        }
+
         dispatch(updateCountry(results))
 
         rotateGlobe()

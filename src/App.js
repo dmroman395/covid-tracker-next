@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import InfoCard from'./components/infoCard'
 import ThemeDialog from './components/themeDialog';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { setLoadingFalse, setLoadingTrue } from './redux/loadingSlice'
 import { useDispatch } from 'react-redux';
 import { selectDarkMode } from './redux/darkModeSlice';
 import { selectTheme } from './redux/themeSlice'
@@ -23,9 +24,14 @@ function App() {
   const dispatch = useDispatch()
 
   useEffect(async () => {
+    dispatch(setLoadingTrue())
+
     const data = await getInitialData()
+
     dispatch(updateNews(data.news))
     dispatch(updateStats(data.stats))
+
+    dispatch(setLoadingFalse())
   },[])
 
   const theme = createTheme({
