@@ -18,7 +18,17 @@ const getStatsFromProxy = async (location) => {
   };
 }
 
+const getInitialData = async () => {
+  try {
+    const data = await axios.get('https://covid-tracker-express-server.herokuapp.com')
+    return data.data
+  } catch(err) {
+    console.error(err)
+  }
+}
+
 module.exports = {
   getNewsFromProxy,
-  getStatsFromProxy
+  getStatsFromProxy,
+  getInitialData
 }

@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
-import Marker from './marker'
 import { useTexture } from "@react-three/drei"
 import { updateCountry } from '../redux/countrySlice'
 import { updateNews } from '../redux/newsSlice'
@@ -24,7 +23,6 @@ let markerMap
 function Scene() {
   const [isDragging, setIsDragging] = useState(false)
   const [isListeningForDrag, setIsListeningForDrag] = useState(false)
-  const [markerPos, setMarkerPos] = useState({lat: 0, lon: 0 })
 
   const dispatch = useDispatch()
   const darkMode = useSelector(selectDarkMode)
@@ -111,7 +109,10 @@ function Scene() {
     
     const country = await getCountryFromProxy(coords.lat, coords.lon)
    
-    if (country === undefined) return
+    if (country === undefined)  {
+      dispatch(setLoadingFalse())
+      return
+    }
 
     dispatch(updateCountry(country))
 
@@ -134,17 +135,15 @@ function Scene() {
     const cone = new THREE.Mesh(new THREE.ConeBufferGeometry(radius, height, 8, 1, true), material);
     cone.position.y = height * 0.5;
     cone.rotation.x = Math.PI;
-    cone.renderOrder = 3
+    cone.renderOrder = 1
 
     const sphere = new THREE.Mesh(new THREE.SphereBufferGeometry(sphereRadius, 16, 8), material);
     sphere.position.y = height * 0.90 + sphereRadius;
-    sphere.renderOrder = 3
+    sphere.renderOrder = 1
 
     const marker = new THREE.Object3D()
-    // marker.renderOrder = 3
     marker.add(cone)
     marker.add(sphere)
-    console.log(marker)
 
     return marker
 }
@@ -172,8 +171,6 @@ function Scene() {
 
     marker.position.set(Math.cos(latRad) * Math.cos(lonRad) * r, Math.sin(latRad) * r, Math.cos(latRad) * Math.sin(lonRad) * r);
     marker.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
-
-    console.log(marker)
   }
 
   function handleClick(e) {
@@ -200,15 +197,11 @@ function Scene() {
        <sprite scale={[4,4,1]} >
           <spriteMaterial {...spriteMaterial} />
        </sprite>
-       <mesh renderOrder={2}>
-          <sphereGeometry args={[1, 100, 100]}/>
-          <meshPhongMaterial transparent={true} opacity={0} depthWrite={!true} depthTest={!true} colorWrite={!false}/>
-       </mesh>
        <mesh ref={globeRef} renderOrder={0} name={'earth'} onClick={isDragging ? null :  e => handleClick(e)} onPointerMove={isListeningForDrag ? e => handleDrag(e) : null} onPointerDown={addDragListnener} onPointerUp={removeDragListener}>
           <sphereGeometry args={[1, 100, 100]}/>
           <meshPhongMaterial {...props} bumpScale={.002} color={customTheme} transparent={true} alphaTest={.05} opacity={1} depthWrite={false} depthTest={false}/>
        </mesh>
-       <OrbitControls autoRotate={isRotating} autoRotateSpeed={.75} enableZoom={!false} enablePan={false}/>
+       <OrbitControls autoRotate={isRotating} autoRotateSpeed={.75} enableZoom={false} enablePan={false}/>
     </>
   )
 }

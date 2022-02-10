@@ -12,6 +12,7 @@ import { updateNews } from '../redux/newsSlice'
 import { disableRotation, toggleRotation, selectRotation } from '../redux/rotationSlice';
 import { updateStats } from '../redux/statsSlice'
 import { calcPosFromLatLon, getCurve } from '../controllers/globeController';
+import { setLoadingFalse, setLoadingTrue } from '../redux/loadingSlice'
 import { updateCurrentPosition, updateTargetPosition, updateCurve, resetCounter, selectCamera } from '../redux/cameraSlice'
 import { useSelector, useDispatch } from 'react-redux';
 import coordinates from '../data/coordinates.json'
@@ -61,7 +62,10 @@ function Header() {
         dispatch(disableRotation())
     }
 
-    async function getSearchResults() {
+    async function getSearchResults(e) {
+        e.preventDefault()
+        dispatch(setLoadingTrue())
+        
         const results = await getCountryFromSearch(searchVal)
         dispatch(updateCountry(results))
 
@@ -72,6 +76,8 @@ function Header() {
 
         const stats = await getStatsFromProxy(results.code)
         dispatch(updateStats(stats))
+
+        dispatch(setLoadingFalse())
     }
 
     function handleRotationToggle() {
@@ -108,21 +114,23 @@ function Header() {
                 </Button>
                 </div>
                 <div className={styles.search}>
-                    <TextField 
-                    label="Search..." 
-                    variant="outlined" 
-                    type='search' 
-                    size='small'
-                    sx={{
-                        width: 400,
-                        bgcolor: darkMode ? null : 'white',
-                        borderRadius: 15
-                    }}
-                    onChange={e => setSearch(e)}
-                    />
-                    <IconButton color='primary' onClick={getSearchResults}>
-                        <SearchIcon/>
-                    </IconButton> 
+                    <form onSubmit={getSearchResults}>
+                        <TextField 
+                        label="Search..." 
+                        variant="outlined" 
+                        type='search' 
+                        size='small'
+                        sx={{
+                            width: 400,
+                            bgcolor: darkMode ? null : 'white',
+                            borderRadius: 15
+                        }}
+                        onChange={e => setSearch(e)}
+                        />
+                        <IconButton color='primary' onClick={getSearchResults}>
+                            <SearchIcon/>
+                        </IconButton> 
+                    </form>
                 </div>
                 <DarkMode/>
             </div>

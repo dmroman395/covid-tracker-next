@@ -1,18 +1,32 @@
 import styles from './css/app.module.css';
-import React from "react";
+import React, { useEffect } from "react";
 import Header from './components/header';
 import Box from '@mui/material/Box';
 import InfoCard from'./components/infoCard'
 import ThemeDialog from './components/themeDialog';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useDispatch } from 'react-redux';
 import { selectDarkMode } from './redux/darkModeSlice';
 import { selectTheme } from './redux/themeSlice'
 import { useSelector } from 'react-redux';
+import { updateNews } from './redux/newsSlice';
+import { updateStats } from './redux/statsSlice';
 import GlobeContainer from './threeJS/globeContainer';
+
+const covidController = require('./controllers/covidController')
+
+const { getInitialData } = covidController
 
 function App() {
   const darkMode = useSelector(selectDarkMode)
   const customTheme = useSelector(selectTheme)
+  const dispatch = useDispatch()
+
+  useEffect(async () => {
+    const data = await getInitialData()
+    dispatch(updateNews(data.news))
+    dispatch(updateStats(data.stats))
+  },[])
 
   const theme = createTheme({
     palette: {

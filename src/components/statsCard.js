@@ -8,6 +8,7 @@ function StatsCard({type, stat}) {
     const darkMode = useSelector(selectDarkMode)
 
     let color
+    
     const modNum = stat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
     if (type.includes('Recovered')) {
