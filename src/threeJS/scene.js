@@ -134,14 +134,17 @@ function Scene() {
     const cone = new THREE.Mesh(new THREE.ConeBufferGeometry(radius, height, 8, 1, true), material);
     cone.position.y = height * 0.5;
     cone.rotation.x = Math.PI;
+    cone.renderOrder = 3
 
     const sphere = new THREE.Mesh(new THREE.SphereBufferGeometry(sphereRadius, 16, 8), material);
     sphere.position.y = height * 0.90 + sphereRadius;
+    sphere.renderOrder = 3
 
     const marker = new THREE.Object3D()
-    marker.renderOrder = 2
+    // marker.renderOrder = 3
     marker.add(cone)
     marker.add(sphere)
+    console.log(marker)
 
     return marker
 }
@@ -197,9 +200,9 @@ function Scene() {
        <sprite scale={[4,4,1]} >
           <spriteMaterial {...spriteMaterial} />
        </sprite>
-       <mesh renderOrder={3}>
+       <mesh renderOrder={2}>
           <sphereGeometry args={[1, 100, 100]}/>
-          <meshPhongMaterial transparent={true} depthWrite={true} depthTest={true} colorWrite={false}/>
+          <meshPhongMaterial transparent={true} opacity={0} depthWrite={!true} depthTest={!true} colorWrite={!false}/>
        </mesh>
        <mesh ref={globeRef} renderOrder={0} name={'earth'} onClick={isDragging ? null :  e => handleClick(e)} onPointerMove={isListeningForDrag ? e => handleDrag(e) : null} onPointerDown={addDragListnener} onPointerUp={removeDragListener}>
           <sphereGeometry args={[1, 100, 100]}/>
