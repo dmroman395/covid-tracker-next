@@ -185,7 +185,7 @@ function Scene() {
       createMarker(coords.lat, coords.lon)
     } else updateMarker(coords.lat, coords.lon)
 
-    // fetchData(coords)
+    fetchData(coords)
   }
 
   return (

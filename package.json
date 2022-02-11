@@ -23,6 +23,8 @@
     "@uiw/react-color-wheel": "^1.0.7",
     "axios": "^0.24.0",
     "chart.js": "^3.7.0",
+    "hex-to-hsl": "^1.0.2",
+    "hsl-to-hex": "^1.0.0",
     "next": "^12.0.9",
     "react": "17.0.2",
     "react-chartjs-2": "^4.0.1",

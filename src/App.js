@@ -14,6 +14,8 @@ import { useSelector } from 'react-redux';
 import { updateNews } from './redux/newsSlice';
 import { updateStats } from './redux/statsSlice';
 import GlobeContainer from './threeJS/globeContainer';
+const hexToHsl = require('hex-to-hsl');
+const hslToHex = require('hsl-to-hex')
 
 const covidController = require('./controllers/covidController')
 
@@ -45,24 +47,27 @@ function App() {
         default: darkMode ? '#303030' : '#f2f2f2',
         paper: darkMode ? '#424242' : '#fafafa'
       },
+      info: {
+        main: customTheme
+      }
     },
     typography: {
       fontFamily: 'Quicksand'
     },
     components: {
-    MuiButton: {
-      variants: [
-        {
-          props: { variant: 'plain' },
-          style: {
-            height: 65,
-            width: 'inherit',
-            borderRadius: 0
+      MuiButton: {
+        variants: [
+          {
+            props: { variant: 'plain' },
+            style: {
+              height: 65,
+              width: 'inherit',
+              borderRadius: 0
+            },
           },
-        },
-      ],
+        ],
+      },
     },
-  },
   })
 
   return (
