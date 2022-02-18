@@ -4,16 +4,17 @@
     flex-direction: column;
     .mainContent {
         display: flex;
-        justify-content: space-between;
         align-items: center;
         flex-grow: 1;
+        max-height: 90vh;
         .infoContainer {
+            height: 85%;
             width: 50%;
             display: flex;
-            justify-content: center;
+            justify-content: flex-end;
         }
         .globeContainer {
-            width: 50%;
+            width: 70%;
             height: 100%;
         }
     }

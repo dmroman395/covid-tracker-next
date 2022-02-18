@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from '../css/darkMode.module.css'
 import Switch from '@mui/material/Switch';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -16,7 +16,7 @@ function DarkMode() {
     return (
         <div className={styles.darkMode}>
             <LightModeIcon color='primary'/>
-            <Switch onClick={toggleDarkMode}/>
+            <Switch onClick={toggleDarkMode} />
             <DarkModeIcon color ='primary'/>
         </div>
     )

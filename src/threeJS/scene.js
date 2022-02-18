@@ -72,38 +72,6 @@ function Scene() {
     setIsDragging(false)
   }
 
-  useFrame(() => {
-    if(camPos.counter <= camPos.curveArr.length && camPos.curveArr.length > 0) {
-      if (camPos.counter > camPos.curveArr.length - 1) {
-        dispatch(updateCurve([]))
-        return
-      }
-      const x = camPos.curveArr[camPos.counter][0]
-      const y = camPos.curveArr[camPos.counter][1]
-      const z = camPos.curveArr[camPos.counter][2]
-
-      const currVec = new THREE.Vector3(x,y,z)
-
-      cam.current.position.lerp(currVec, 0.15)
-      const updatedPos = [cam.current.position.x, cam.current.position.y, cam.current.position.z]
-      dispatch(updateCurrentPosition(updatedPos))
-      dispatch(incrementCounter())
-    }
-
-    if (globe.children.length > 0 ) {
-      const marker = globe.children[0]
-      const cone = marker.children[0]
-      const sphere = marker.children[1]
-
-      const newColor = darkMode ? new THREE.Color('white') : new THREE.Color('black')
-
-      sphere.material.color = newColor
-      cone.material.color = newColor
-    } 
-
-    camera.lookAt(globe.position)
-  })
-
   async function fetchData(coords) {
     dispatch(setLoadingTrue())
     
@@ -135,18 +103,18 @@ function Scene() {
     const cone = new THREE.Mesh(new THREE.ConeBufferGeometry(radius, height, 8, 1, true), material);
     cone.position.y = height * 0.5;
     cone.rotation.x = Math.PI;
-    cone.renderOrder = 1
+    cone.renderOrder = 2
 
     const sphere = new THREE.Mesh(new THREE.SphereBufferGeometry(sphereRadius, 16, 8), material);
     sphere.position.y = height * 0.90 + sphereRadius;
-    sphere.renderOrder = 1
+    sphere.renderOrder = 2
 
     const marker = new THREE.Object3D()
     marker.add(cone)
     marker.add(sphere)
 
     return marker
-}
+  }
 
   function createMarker(lat, lon) {
 
@@ -188,6 +156,38 @@ function Scene() {
     fetchData(coords)
   }
 
+  useFrame(() => {
+    if(camPos.counter <= camPos.curveArr.length && camPos.curveArr.length > 0) {
+      if (camPos.counter > camPos.curveArr.length - 1) {
+        dispatch(updateCurve([]))
+        return
+      }
+      const x = camPos.curveArr[camPos.counter][0]
+      const y = camPos.curveArr[camPos.counter][1]
+      const z = camPos.curveArr[camPos.counter][2]
+
+      const currVec = new THREE.Vector3(x,y,z)
+
+      cam.current.position.lerp(currVec, 0.15)
+      const updatedPos = [cam.current.position.x, cam.current.position.y, cam.current.position.z]
+      dispatch(updateCurrentPosition(updatedPos))
+      dispatch(incrementCounter())
+    }
+
+    if (globe.children.length > 0 ) {
+      const marker = globe.children[0]
+      const cone = marker.children[0]
+      const sphere = marker.children[1]
+
+      const newColor = darkMode ? new THREE.Color('white') : new THREE.Color('black')
+
+      sphere.material.color = newColor
+      cone.material.color = newColor
+    } 
+
+    camera.lookAt(globe.position)
+  })
+
   return (
       <>
        <PerspectiveCamera makeDefault fov={50} position={[0,0,-2.75]} ref={cam}>
@@ -197,6 +197,10 @@ function Scene() {
        <sprite scale={[4,4,1]} >
           <spriteMaterial {...spriteMaterial} />
        </sprite>
+       <mesh renderOrder={1}>
+          <sphereGeometry args={[1.001, 100, 100]} />
+          <meshPhongMaterial transparent={true} colorWrite={false}/>
+       </mesh>
        <mesh ref={globeRef} renderOrder={0} name={'earth'} onClick={isDragging ? null :  e => handleClick(e)} onPointerMove={isListeningForDrag ? e => handleDrag(e) : null} onPointerDown={addDragListnener} onPointerUp={removeDragListener}>
           <sphereGeometry args={[1, 100, 100]}/>
           <meshPhongMaterial {...props} bumpScale={.002} color={customTheme} transparent={true} alphaTest={.05} opacity={1} depthWrite={false} depthTest={false}/>

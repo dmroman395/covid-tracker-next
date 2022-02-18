@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const errorSlice = createSlice({
     name: 'error',
-    initialState: '',
+    initialState: 'Search a country or click one on the globe for local COVID news and statistics',
     reducers: {
         updateError: (state, action) => {
-           return `Sorry, we couldn't find "${action.payload}"`
+           return action.payload
         },
         resetError : state => {
            return ''

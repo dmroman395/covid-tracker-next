@@ -19,7 +19,6 @@ function ErrorDialog() {
     return(
         <Dialog
             open={errorMsg.length > 0 ? true : false}
-            onBackdropClick={handleClose}
             sx={{
                 backdropFilter: 'blur(4px)'
             }}
@@ -30,16 +29,16 @@ function ErrorDialog() {
         >
             <DialogContent
                 sx={{
-                    width: 251,
+                    width: 300,
                     display: 'flex',
                     justifyContent: 'center'
                 }}
             >
-                <Typography variant='h6' align='center'>{errorMsg}</Typography>
+                <Typography variant='h5' align='center'>{errorMsg}</Typography>
             </DialogContent>
-            <DialogActions>
+            <DialogActions sx={{display: 'flex', justifyContent: 'center'}} >
                     <Button 
-                        variant='outlined'
+                        variant='contained'
                         sx={{
                             width: '100%'
                         }}

@@ -47,7 +47,7 @@ function InfoCard() {
                         <Tab label='Stats' value='2'/>
                     </TabList>
                 </Box>
-                <TabPanel className={darkMode ? `${styles.panelContainer} ${styles.dark}` : `${styles.panelContainer} ${styles.light}`} value='1'>
+                <TabPanel className={`${styles.panelContainer} ${darkMode ? styles.dark : styles.light}`} value='1'>
                     <NewsCardPanel/>
                 </TabPanel>
                 <TabPanel className={styles.panelContainer} value='2'>
@@ -60,16 +60,10 @@ function InfoCard() {
         <Paper
             elevation={10}
             sx={{
-                borderRadius: 1,
-                minHeight: '700px',
-                maxHeight: '700px',
-                width: '65%',
-                overflow: 'hidden',
-                display: 'flex',
-                flexDirection: 'column',
                 justifyContent: isLoading ? 'center' : null,
                 alignItems: isLoading ? 'center' : null
             }}
+        className={styles.infoCard}
         >
             {isLoading ? <CircularProgress size='8rem' thickness={2.25}/> : content}
         </Paper>  

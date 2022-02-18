@@ -5,9 +5,6 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from  '@mui/material/Alert';
-import Slide from '@mui/material/Slide';
 import { selectDarkMode } from '../redux/darkModeSlice';
 import { updateSelecting } from '../redux/themeSlice'
 import { updateCountry } from '../redux/countrySlice'
@@ -15,7 +12,7 @@ import { updateNews } from '../redux/newsSlice'
 import { disableRotation, toggleRotation, selectRotation } from '../redux/rotationSlice';
 import { updateStats } from '../redux/statsSlice'
 import { calcPosFromLatLon, getCurve } from '../controllers/globeController';
-import { setLoadingFalse, setLoadingTrue, selectLoading } from '../redux/loadingSlice'
+import { setLoadingFalse, setLoadingTrue } from '../redux/loadingSlice'
 import { updateCurrentPosition, updateTargetPosition, updateCurve, resetCounter, selectCamera } from '../redux/cameraSlice'
 import { useSelector, useDispatch } from 'react-redux';
 import { updateError } from'../redux/errorSlice'
@@ -29,18 +26,12 @@ const { getCountryFromSearch } = countryController
 
 const { getNewsFromProxy, getStatsFromProxy } = covidController
 
-function Transition(props) {
-    return <Slide {...props} direction="up" />;
-}
-
 function Header() {
     const dispatch = useDispatch()
     const darkMode = useSelector(selectDarkMode)
-    const isLoading = useSelector(selectLoading)
     const cam = useSelector(selectCamera)
     const isRotating = useSelector(selectRotation)
     const [searchVal, setSearchVal] = useState('')
-    const [snackOpen, setSnackOpen] = useState(false)
 
     function setSearch(e) {
         e.preventDefault()
@@ -48,7 +39,7 @@ function Header() {
         setSearchVal(e.target.value)
     }
 
-    async function capitalize(str) {
+    function capitalize(str) {
         let modSearchVal = ''
 
         const words = str.split(' ')
@@ -66,16 +57,23 @@ function Header() {
         return modSearchVal
     }
 
-    async function rotateGlobe() {
-        
-        // const val = await capitalize(searchVal)
+    function rotateGlobe() {
+        const val = capitalize(searchVal)
 
-        const {lat, lon} = coordinates[searchVal]
+        const trimVal = val.trim()
+
+        const latLon = coordinates[trimVal]
+
+        if (latLon === undefined) {
+            dispatch(updateError(searchVal))
+            return
+        }
+
+        const { lat, lon } = latLon
 
         const c = calcPosFromLatLon(lat, lon)
     
         const point = new THREE.Vector3(c.x,c.y,c.z)
-    
         const coeff = 1 + (1.75/1)
     
         const currPos = [cam.currentPosition[0], cam.currentPosition[1], cam.currentPosition[2]]
@@ -91,28 +89,11 @@ function Header() {
         dispatch(disableRotation())
     }
 
-    function openSnackbar() {
-        setSnackOpen(true)
-    }
-
-    function closeSnackbar(e, r) {
-        if (r === 'clickaway') return
-        setSnackOpen(false)
-    }
-
-    function handleSnackbar() {
-        if(isLoading) openSnackbar()
-    }
-
     async function getSearchResults(e) {
         e.preventDefault()
         dispatch(setLoadingTrue())
 
-        const val = await capitalize(searchVal)
-
-        const results = await getCountryFromSearch(val)
-
-        setTimeout(handleSnackbar, 10000)
+        const results = await getCountryFromSearch(searchVal)
 
         if (Object.keys(results).length == 0) {
             dispatch(updateError(searchVal))
@@ -166,27 +147,17 @@ function Header() {
                     {`${isRotating ? 'Disable' : 'Enable'} Rotation`}
                 </Button>
                 </div>
-                <Snackbar 
-                    open={snackOpen}
-                    autoHideDuration={5000}
-                    onClose={closeSnackbar}
-                    TransitionComponent={Transition}
-                >
-                    <Alert onClose={closeSnackbar} sx={{ width: '100%' }} severity='info' >
-                    Sorry for the wait, the server is still waking up...
-                    </Alert>
-                </Snackbar>
                 <div className={styles.search}>
                     <form onSubmit={getSearchResults}>
                         <TextField 
-                        label="Search..." 
+                        label="Search..."
                         variant="outlined" 
                         type='search' 
                         size='small'
                         sx={{
                             width: 400,
                             bgcolor: darkMode ? null : 'white',
-                            borderRadius: 15
+                            borderRadius: 15,
                         }}
                         onChange={e => setSearch(e)}
                         />
