@@ -1,6 +1,7 @@
 import styles from './css/app.module.css';
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import Header from './components/header';
+import HeaderMobile from './components/headerMobile';
 import Box from '@mui/material/Box';
 import InfoCard from'./components/infoCard'
 import ThemeDialog from './components/themeDialog';
@@ -8,7 +9,7 @@ import ErrorDialog from './components/errorDialog';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { setLoadingFalse, setLoadingTrue, selectLoading } from './redux/loadingSlice'
 import { useDispatch } from 'react-redux';
-import { selectDarkMode } from './redux/darkModeSlice';
+import { selectDarkMode, setDark } from './redux/darkModeSlice';
 import { selectTheme } from './redux/themeSlice'
 import { useSelector } from 'react-redux';
 import { updateNews } from './redux/newsSlice';
@@ -36,10 +37,17 @@ function App() {
 
   loadingRef.current = isLoading
 
+  useLayoutEffect(() => {
+    const pref = window.matchMedia('(prefers-color-scheme: dark)')
+    if (pref.matches) {
+        dispatch(setDark())
+    }
+  },[])
+
   useEffect(async () => {
     dispatch(setLoadingTrue())
 
-    setTimeout(handleSnackbar, 10000)
+    setTimeout(handleSnackbar, 7000)
 
     const data = await getInitialData()
 
@@ -106,7 +114,8 @@ function App() {
           backgroundColor: theme.palette.background.default
         }}
       >
-        <Header/>
+        <HeaderMobile/>
+        {/* <Header/> */}
         <div className={styles.mainContent}>
           <div className={styles.infoContainer}><InfoCard align='center'>Placeholder</InfoCard></div>
           <div className={styles.globeContainer}><GlobeContainer/></div>

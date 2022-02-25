@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
+import MenuIcon from '@mui/icons-material/Menu';
 import { selectDarkMode } from '../redux/darkModeSlice';
 import { updateSelecting } from '../redux/themeSlice'
 import { updateCountry } from '../redux/countrySlice'
@@ -16,6 +17,7 @@ import { setLoadingFalse, setLoadingTrue } from '../redux/loadingSlice'
 import { updateCurrentPosition, updateTargetPosition, updateCurve, resetCounter, selectCamera } from '../redux/cameraSlice'
 import { useSelector, useDispatch } from 'react-redux';
 import { updateError } from'../redux/errorSlice'
+import Drawer from '@mui/material/Drawer';
 import coordinates from '../data/coordinates.json'
 import styles from  '../css/header.module.css'
 
@@ -26,11 +28,12 @@ const { getCountryFromSearch } = countryController
 
 const { getNewsFromProxy, getStatsFromProxy } = covidController
 
-function Header() {
+function HeaderMobile() {
     const dispatch = useDispatch()
     const darkMode = useSelector(selectDarkMode)
     const cam = useSelector(selectCamera)
     const isRotating = useSelector(selectRotation)
+    const [open, setOpen] = useState(false)
     const [searchVal, setSearchVal] = useState('')
 
     function setSearch(e) {
@@ -89,6 +92,14 @@ function Header() {
         dispatch(disableRotation())
     }
 
+    function openDrawer() {
+        setOpen(true)
+    }
+
+    function closeDrawer() {
+        setOpen(false)
+    }
+
     async function getSearchResults(e) {
         e.preventDefault()
         dispatch(setLoadingTrue())
@@ -124,51 +135,65 @@ function Header() {
     
     return (
             <div className={styles.header}>
-                <div>
-                <Button 
-                    variant='contained' 
-                    size='small'
-                    sx={{
-                        fontWeight: 600,
-                        marginRight: '10px' 
+                <IconButton color='primary' onClick={openDrawer}>
+                    <MenuIcon/>
+                </IconButton> 
+                <Drawer
+                    anchor='top'
+                    open={open}
+                    onClose={closeDrawer}
+                    PaperProps={{
+                       sx: {
+                           padding: '20px',
+                       }
                     }}
-                    onClick={handleSelecting}
                 >
-                    Change Theme
-                </Button>
-                <Button 
-                    variant='contained' 
-                    size='small'
-                    sx={{
-                        fontWeight: 600
-                    }}
-                    onClick={handleRotationToggle}
-                >
-                    {`${isRotating ? 'Disable' : 'Enable'} Rotation`}
-                </Button>
-                </div>
-                <div className={styles.search}>
-                    <form onSubmit={getSearchResults}>
-                        <TextField 
-                        label="Search..."
-                        variant="outlined" 
-                        type='search' 
-                        size='small'
-                        sx={{
-                            width: 400,
-                            bgcolor: darkMode ? null : 'white',
-                            borderRadius: 15,
-                        }}
-                        onChange={e => setSearch(e)}
-                        />
-                        <IconButton color='primary' onClick={getSearchResults}>
-                            <SearchIcon/>
-                        </IconButton> 
-                    </form>
-                </div>
-                <DarkMode/>
+                    <div>
+                        <Button 
+                            variant='contained' 
+                            size='small'
+                            sx={{
+                                fontWeight: 600,
+                                marginRight: '10px' 
+                            }}
+                            onClick={handleSelecting}
+                        >
+                            Change Theme
+                        </Button>
+                        <Button 
+                            variant='contained' 
+                            size='small'
+                            sx={{
+                                fontWeight: 600
+                            }}
+                            onClick={handleRotationToggle}
+                        >
+                            {`${isRotating ? 'Disable' : 'Enable'} Rotation`}
+                        </Button>
+                    </div>
+                    <div className={styles.searchMobile}>
+                        <form onSubmit={getSearchResults}>
+                            <TextField 
+                            label="Search..."
+                            variant="outlined" 
+                            type='search' 
+                            size='small'
+                            sx={{
+                                width: 400,
+                                bgcolor: darkMode ? null : 'white',
+                                borderRadius: 15,
+                            }}
+                            onChange={e => setSearch(e)}
+                            />
+                            <IconButton color='primary' onClick={getSearchResults}>
+                                <SearchIcon/>
+                            </IconButton> 
+                        </form>
+                    </div>
+                    <DarkMode/>
+                </Drawer>
             </div>
     )
 }
 
-export default Header
+export default HeaderMobile

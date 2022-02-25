@@ -40,6 +40,7 @@ function ThemeDialog() {
     }
 
     function setNewTheme() {
+        console.log(hex)
         dispatch(updateTheme(hex))
     }
 
