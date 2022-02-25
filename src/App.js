@@ -1,5 +1,5 @@
 import styles from './css/app.module.css';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Header from './components/header';
 import Box from '@mui/material/Box';
 import InfoCard from'./components/infoCard'
@@ -30,15 +30,18 @@ function App() {
   const darkMode = useSelector(selectDarkMode)
   const customTheme = useSelector(selectTheme)
   const isLoading = useSelector(selectLoading)
+  const loadingRef = useRef()
   const [snackOpen, setSnackOpen] = useState(false)
   const dispatch = useDispatch()
+
+  loadingRef.current = isLoading
 
   useEffect(async () => {
     dispatch(setLoadingTrue())
 
-    const data = await getInitialData()
+    setTimeout(handleSnackbar, 10000)
 
-    setTimeout(handleSnackbar, 7000)
+    const data = await getInitialData()
 
     dispatch(updateNews(data.news))
     dispatch(updateStats(data.stats))
@@ -90,7 +93,7 @@ function App() {
   }
 
   function handleSnackbar() {
-      if(isLoading) openSnackbar()
+      if(loadingRef.current) openSnackbar()
   }
 
   return (
