@@ -205,7 +205,7 @@ function Scene() {
           <sphereGeometry args={[1, 100, 100]}/>
           <meshPhongMaterial {...props} bumpScale={.002} color={customTheme} transparent={true} alphaTest={.05} opacity={1} depthWrite={false} depthTest={false}/>
        </mesh>
-       <OrbitControls autoRotate={isRotating} autoRotateSpeed={.75} enableZoom={false} enablePan={false}/>
+       <OrbitControls autoRotate={isRotating} autoRotateSpeed={1} enableZoom={false} enablePan={false}/>
     </>
   )
 }

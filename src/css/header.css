@@ -17,6 +17,7 @@
 }
 
 .header .search {
+  background-color: 'red';
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -29,6 +30,10 @@
 }
 
 .header .searchMobile {
+  background-color: 'red';
+}
+
+.header .searchMobile form {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -38,6 +43,7 @@
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
+  margin: 20px 0;
 }
 
 .header .searchMobile fieldset {

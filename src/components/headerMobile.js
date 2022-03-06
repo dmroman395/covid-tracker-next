@@ -133,6 +133,8 @@ function HeaderMobile() {
         dispatch(updateSelecting())
     }
     
+console.log(styles.searchMobile)
+
     return (
             <div className={styles.header}>
                 <IconButton color='primary' onClick={openDrawer}>
@@ -182,6 +184,7 @@ function HeaderMobile() {
                                 width: 400,
                                 bgcolor: darkMode ? null : 'white',
                                 borderRadius: 15,
+                                margin: '15px 0'
                             }}
                             onChange={e => setSearch(e)}
                             />

@@ -8,14 +8,20 @@
         border-radius: 60px;
     }
     .search {
+        background-color: 'red';
         display: flex;
         align-items: center;
         justify-content: flex-end;
     }
     .searchMobile {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
+        background-color: 'red';
+        form {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin: 20px 0;
+        }
+        
     }
     .searchMobile fieldset {
         border-radius: 60px;
