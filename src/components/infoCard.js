@@ -13,6 +13,8 @@ import { selectLoading } from '../redux/loadingSlice';
 import { useSelector } from 'react-redux'
 import NewsCardPanel from './newsCardPanel';
 import StatsCardPanel from './statsCardPanel';
+import ThreeSixtyIcon from '@mui/icons-material/ThreeSixty';
+import IconButton from '@mui/material/IconButton';
 import styles from '../css/infoCard.module.css'
 
 function InfoCard() {
@@ -57,16 +59,18 @@ function InfoCard() {
     </>
 
     return(
-        <Paper
-            elevation={10}
-            sx={{
-                justifyContent: isLoading ? 'center' : null,
-                alignItems: isLoading ? 'center' : null
-            }}
-        className={styles.infoCard}
-        >
-            {isLoading ? <CircularProgress size='8rem' thickness={2.25}/> : content}
-        </Paper>  
+        <div className={styles.infoContainer}>
+            <Paper
+                elevation={10}
+                sx={{
+                    justifyContent: isLoading ? 'center' : null,
+                    alignItems: isLoading ? 'center' : null
+                }}
+            className={styles.infoCard}
+            >
+                {isLoading ? <CircularProgress size='8rem' thickness={2.25}/> : content}
+            </Paper>
+        </div>
     )
 }
 

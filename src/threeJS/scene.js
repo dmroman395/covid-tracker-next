@@ -190,7 +190,7 @@ function Scene() {
 
   return (
       <>
-       <PerspectiveCamera makeDefault fov={50} position={[0,0,-2.75]} ref={cam}>
+       <PerspectiveCamera makeDefault fov={60} position={[0,0,-2.75]} ref={cam}>
          <directionalLight intensity={1} position={[-4,4,0]}/>
        </PerspectiveCamera>
        <ambientLight intensity={.1}/>
@@ -198,7 +198,7 @@ function Scene() {
           <spriteMaterial {...spriteMaterial} />
        </sprite>
        <mesh renderOrder={1}>
-          <sphereGeometry args={[1.001, 100, 100]} />
+          <sphereGeometry args={[1, 100, 100]} />
           <meshPhongMaterial transparent={true} colorWrite={false}/>
        </mesh>
        <mesh ref={globeRef} renderOrder={0} name={'earth'} onClick={isDragging ? null :  e => handleClick(e)} onPointerMove={isListeningForDrag ? e => handleDrag(e) : null} onPointerDown={addDragListnener} onPointerUp={removeDragListener}>

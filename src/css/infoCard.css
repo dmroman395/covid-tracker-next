@@ -1,6 +1,8 @@
-.infoCard {
-  max-height: 100%;
-  width: 85%;
+.infoContainer {
+  height: 100%;
+  width: 80%;
+  max-width: 500px;
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -8,9 +10,30 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-.infoCard .panelContainer {
+.infoContainer .infoCard {
+  height: 100%;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.infoContainer .infoCard .panelContainer {
   width: 100% !important;
   padding: 0 !important;
   overflow: hidden;
@@ -19,31 +42,40 @@
           flex-grow: 1;
 }
 
-.infoCard .light ::-webkit-scrollbar {
+.infoContainer .infoCard .light ::-webkit-scrollbar {
   width: 15px;
 }
 
-.infoCard .light ::-webkit-scrollbar-track {
+.infoContainer .infoCard .light ::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.075);
 }
 
-.infoCard .light ::-webkit-scrollbar-thumb {
+.infoContainer .infoCard .light ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.175);
   border-radius: 10px;
   border: 3px solid rgba(255, 255, 255, 0.62);
 }
 
-.infoCard .dark ::-webkit-scrollbar {
+.infoContainer .infoCard .dark ::-webkit-scrollbar {
   width: 15px;
 }
 
-.infoCard .dark ::-webkit-scrollbar-track {
+.infoContainer .infoCard .dark ::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.35);
 }
 
-.infoCard .dark ::-webkit-scrollbar-thumb {
+.infoContainer .infoCard .dark ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   border: 3px solid rgba(0, 0, 0, 0.4);
+}
+
+.infoContainer .reverseContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 /*# sourceMappingURL=infoCard.css.map */

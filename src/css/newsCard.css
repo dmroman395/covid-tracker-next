@@ -1,0 +1,11 @@
+.newsCard {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.newsCard .media {
+  padding: 15px;
+  height: 100%;
+}
+/*# sourceMappingURL=newsCard.css.map */

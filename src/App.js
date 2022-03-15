@@ -15,6 +15,8 @@ import { useSelector } from 'react-redux';
 import { updateNews } from './redux/newsSlice';
 import { updateStats } from './redux/statsSlice';
 import GlobeContainer from './threeJS/globeContainer';
+import MobileView from './components/mobileView';
+import DesktopView from './components/desktopView';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from  '@mui/material/Alert';
 import Slide from '@mui/material/Slide';
@@ -114,11 +116,10 @@ function App() {
           backgroundColor: theme.palette.background.default
         }}
       >
-        <HeaderMobile/>
-        {/* <Header/> */}
+        {/* <HeaderMobile/> */}
+        <Header/>
         <div className={styles.mainContent}>
-          <div className={styles.infoContainer}><InfoCard align='center'>Placeholder</InfoCard></div>
-          <div className={styles.globeContainer}><GlobeContainer/></div>
+          <DesktopView/>
         </div>
         <Snackbar 
             open={snackOpen}

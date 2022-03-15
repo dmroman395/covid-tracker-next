@@ -8,22 +8,21 @@
         border-radius: 60px;
     }
     .search {
-        background-color: 'red';
         display: flex;
         align-items: center;
         justify-content: flex-end;
     }
-    .searchMobile {
-        background-color: 'red';
-        form {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            margin: 20px 0;
-        }
-        
+}
+
+.searchMobile {
+    width: 100%;
+    form {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
     }
-    .searchMobile fieldset {
-        border-radius: 60px;
-    }
+    
+}
+.searchMobile fieldset {
+    border-radius: 60px;
 }

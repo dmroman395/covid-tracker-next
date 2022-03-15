@@ -2,20 +2,36 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
     .mainContent {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        flex-grow: 1;
-        max-height: 90vh;
-        .infoContainer {
-            height: 85%;
-            width: 50%;
+        box-sizing: border-box;
+        max-height: 92vh;
+        .content {
             display: flex;
-            justify-content: flex-end;
-        }
-        .globeContainer {
-            width: 70%;
+            justify-content: space-between;
+            align-items: center;
             height: 100%;
+            width: 100%;
+            position: relative;
+            padding: 0 30px;
+            .infoCardContainer {
+                box-sizing: border-box;
+                height: 100%;
+                width: 40%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 50px 0;
+            }
+            .globeContainer {
+                box-sizing: border-box;
+                height: 100%;
+                width: 60%;
+                overflow: visible;
+            }
         }
     }
 }

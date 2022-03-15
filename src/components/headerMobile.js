@@ -132,8 +132,6 @@ function HeaderMobile() {
     function handleSelecting() {
         dispatch(updateSelecting())
     }
-    
-console.log(styles.searchMobile)
 
     return (
             <div className={styles.header}>
@@ -146,7 +144,12 @@ console.log(styles.searchMobile)
                     onClose={closeDrawer}
                     PaperProps={{
                        sx: {
+                           boxSizing: 'border-box',
+                           width: '100vw',
                            padding: '20px',
+                           display: 'grid',
+                           justifyItems: 'center',
+                           gridTemplateColumns: '1fr',
                        }
                     }}
                 >
@@ -181,7 +184,7 @@ console.log(styles.searchMobile)
                             type='search' 
                             size='small'
                             sx={{
-                                width: 400,
+                                width: '150%',
                                 bgcolor: darkMode ? null : 'white',
                                 borderRadius: 15,
                                 margin: '15px 0'
