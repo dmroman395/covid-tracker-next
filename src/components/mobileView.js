@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import InfoCard from'./infoCard'
 import GlobeContainer from '../threeJS/globeContainer';
-import ThreeSixtyIcon from '@mui/icons-material/ThreeSixty';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import IconButton from '@mui/material/IconButton';
 import styles from '../css/app.module.css';
 
 function MobileView() {
+    const [isLeft, setIsLeft] = useState(true)
+
+
+    function toggleContent() {
+        const mobileDiv = document.querySelector('#mobile')
+
+        if(isLeft) {
+            mobileDiv.style.left = '-50%'
+            mobileDiv.style.right = '50%'
+        } else {
+            mobileDiv.style.left = '50%'
+            mobileDiv.style.right = '0%'
+        }
+        
+        setIsLeft(!isLeft)
+    }
+    
 
     return (
         <>
-            <div className={styles.content}>
+            <div className={`${styles.content} ${styles.mobile}`} id='mobile'>
                 <div className={styles.infoCardContainer}>
                     <InfoCard/>
                 </div>
@@ -17,8 +34,8 @@ function MobileView() {
                     <GlobeContainer/>
                 </div>
             </div>
-            <IconButton color='primary'>
-                <ThreeSixtyIcon/>
+            <IconButton color='primary' onClick={toggleContent}>
+                <SwapHorizIcon/>
             </IconButton>
         </>
     )

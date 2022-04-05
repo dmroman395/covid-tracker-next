@@ -35,15 +35,29 @@ function App() {
   const isLoading = useSelector(selectLoading)
   const loadingRef = useRef()
   const [snackOpen, setSnackOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const dispatch = useDispatch()
 
   loadingRef.current = isLoading
+
+  function handleMobile(size) {
+    if(size <= 950) {
+      setIsMobile(true)
+    } else {
+      setIsMobile(false)
+    }
+  }
 
   useLayoutEffect(() => {
     const pref = window.matchMedia('(prefers-color-scheme: dark)')
     if (pref.matches) {
         dispatch(setDark())
     }
+    const windowSize = window.innerWidth
+
+    window.addEventListener('resize', handleMobile(windowSize))
+
+    handleMobile(windowSize)
   },[])
 
   useEffect(async () => {
@@ -116,10 +130,9 @@ function App() {
           backgroundColor: theme.palette.background.default
         }}
       >
-        {/* <HeaderMobile/> */}
-        <Header/>
+        {isMobile ? <HeaderMobile/> : <Header/> }
         <div className={styles.mainContent}>
-          <DesktopView/>
+          {isMobile ? <MobileView/> : <DesktopView/>}
         </div>
         <Snackbar 
             open={snackOpen}

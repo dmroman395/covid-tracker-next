@@ -23,6 +23,7 @@
           align-items: center;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  height: 95%;
   max-height: 92vh;
 }
 
@@ -65,5 +66,21 @@
   height: 100%;
   width: 60%;
   overflow: visible;
+}
+
+.App .mainContent .mobile {
+  height: 92%;
+  width: 200%;
+  left: 50%;
+  -webkit-transition: all ease-in-out 500ms;
+  transition: all ease-in-out 500ms;
+}
+
+.App .mainContent .mobile .infoCardContainer {
+  width: 100%;
+}
+
+.App .mainContent .mobile .globeContainer {
+  width: 100%;
 }
 /*# sourceMappingURL=app.css.map */
