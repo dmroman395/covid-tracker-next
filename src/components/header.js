@@ -96,7 +96,7 @@ function Header() {
         const results = await getCountryFromSearch(searchVal)
 
         if (Object.keys(results).length == 0) {
-            dispatch(updateError(searchVal))
+            dispatch(updateError(`Sorry, we couldn't find "${searchVal}"`))
             dispatch(setLoadingFalse())
             return
         }

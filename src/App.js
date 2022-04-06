@@ -35,13 +35,16 @@ function App() {
   const isLoading = useSelector(selectLoading)
   const loadingRef = useRef()
   const [snackOpen, setSnackOpen] = useState(false)
+  // const [viewSize, setViewSize] = useState(1000)
   const [isMobile, setIsMobile] = useState(false)
   const dispatch = useDispatch()
 
   loadingRef.current = isLoading
 
-  function handleMobile(size) {
-    if(size <= 950) {
+  function handleMobile() {
+    const windowSize = window.innerWidth
+
+    if(windowSize <= 950) {
       setIsMobile(true)
     } else {
       setIsMobile(false)
@@ -53,11 +56,10 @@ function App() {
     if (pref.matches) {
         dispatch(setDark())
     }
-    const windowSize = window.innerWidth
 
-    window.addEventListener('resize', handleMobile(windowSize))
+    window.addEventListener('resize', handleMobile)
 
-    handleMobile(windowSize)
+    handleMobile()
   },[])
 
   useEffect(async () => {
@@ -71,7 +73,6 @@ function App() {
     dispatch(updateStats(data.stats))
 
     dispatch(setLoadingFalse())
-
   },[])
 
   const theme = createTheme({

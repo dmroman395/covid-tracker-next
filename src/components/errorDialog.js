@@ -34,7 +34,7 @@ function ErrorDialog() {
                     justifyContent: 'center'
                 }}
             >
-                <Typography variant='h5' align='center'>{errorMsg}</Typography>
+                <Typography variant='h6' align='center'>{errorMsg}</Typography>
             </DialogContent>
             <DialogActions sx={{display: 'flex', justifyContent: 'center'}} >
                     <Button 
